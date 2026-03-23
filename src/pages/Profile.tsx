@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
+import { useAuth } from '@/lib/auth-context'
 
 export function Profile() {
-  const [name, setName] = useState('Sanchari')
-  const [email, setEmail] = useState('sanchari@email.com')
+  const { user } = useAuth()
+  const [name, setName] = useState(user?.name || 'User')
+  const [email, setEmail] = useState(user?.email || 'user@email.com')
   const [phone, setPhone] = useState('+1 (555) 123-4567')
   const [location, setLocation] = useState('San Francisco, CA')
   const [avatar, setAvatar] = useState<string | null>(null)
@@ -37,7 +39,7 @@ export function Profile() {
               {avatar ? (
                 <img src={avatar} alt="Profile" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-[32px] font-medium text-white">S</span>
+                <span className="text-[32px] font-medium text-white">{name[0]?.toUpperCase() || 'U'}</span>
               )}
             </div>
             <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

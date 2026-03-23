@@ -1,62 +1,95 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { supabase, isSupabaseConfigured } from './supabase'
+import type { User } from '@supabase/supabase-js'
 
-export interface DemoUser {
+export interface AppUser {
   id: string
   name: string
   email: string
-  type: 'existing' | 'new'
-}
-
-const DEMO_USERS: Record<string, DemoUser> = {
-  existing: {
-    id: 'demo-user',
-    name: 'Sanchari',
-    email: 'sanchari@email.com',
-    type: 'existing',
-  },
-  new: {
-    id: 'new-user',
-    name: '',
-    email: '',
-    type: 'new',
-  },
 }
 
 interface AuthContextValue {
-  user: DemoUser | null
-  signInExisting: () => void
-  signUpNew: (name: string, email: string) => void
-  signOut: () => void
+  user: AppUser | null
+  loading: boolean
+  signIn: (email: string, password: string) => Promise<void>
+  signUp: (email: string, password: string, name: string) => Promise<void>
+  signOut: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
-  signInExisting: () => {},
-  signUpNew: () => {},
-  signOut: () => {},
+  loading: true,
+  signIn: async () => {},
+  signUp: async () => {},
+  signOut: async () => {},
 })
 
+function mapSupabaseUser(user: User): AppUser {
+  return {
+    id: user.id,
+    name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+    email: user.email || '',
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<DemoUser | null>(null)
+  const [user, setUser] = useState<AppUser | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  const signInExisting = useCallback(() => {
-    setUser(DEMO_USERS.existing)
-  }, [])
+  // Listen for Supabase auth state changes
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setLoading(false)
+      return
+    }
 
-  const signUpNew = useCallback((name: string, email: string) => {
-    setUser({
-      ...DEMO_USERS.new,
-      name: name || 'User',
-      email,
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ? mapSupabaseUser(session.user) : null)
+      setLoading(false)
     })
+
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ? mapSupabaseUser(session.user) : null)
+      }
+    )
+
+    return () => subscription.unsubscribe()
   }, [])
 
-  const signOut = useCallback(() => {
-    setUser(null)
+  const signIn = useCallback(async (email: string, password: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Supabase not configured')
+    }
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+  }, [])
+
+  const signUp = useCallback(async (email: string, password: string, name: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Supabase not configured')
+    }
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name } },
+    })
+    if (error) throw error
+  }, [])
+
+  const signOut = useCallback(async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      setUser(null)
+      return
+    }
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, signInExisting, signUpNew, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   )

@@ -80,7 +80,7 @@ export function Sidebar({ onNewProduct }: SidebarProps) {
                 <ProfileMenuItem icon="help" label="Help & Support" />
               </div>
               <div className="border-t border-[#f0ede8] py-[4px]">
-                <ProfileMenuItem icon="logout" label="Sign out" danger onClick={() => { setProfileOpen(false); signOut(); queryClient.invalidateQueries(); navigate('/') }} />
+                <ProfileMenuItem icon="logout" label="Sign out" danger onClick={async () => { setProfileOpen(false); await signOut(); queryClient.invalidateQueries(); navigate('/') }} />
               </div>
             </div>
           )}

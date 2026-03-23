@@ -101,6 +101,7 @@ export async function createWarranty(input: CreateWarrantyInput): Promise<Warran
         warranty_terms: input.warranty_terms || null,
         brand_contact: input.brand_contact || null,
         notes: input.notes || null,
+        image_url: input.image_url || null,
       })
       .select('*, documents(*)')
       .single()
@@ -133,9 +134,22 @@ export async function createWarranty(input: CreateWarrantyInput): Promise<Warran
 
 export async function updateWarranty(id: string, input: Partial<CreateWarrantyInput>): Promise<Warranty | null> {
   if (await isAuthenticated()) {
+    // Only send fields that exist in the DB (exclude expiry_date — it's generated)
+    const updateFields: Record<string, unknown> = {}
+    if (input.product_name !== undefined) updateFields.product_name = input.product_name
+    if (input.brand !== undefined) updateFields.brand = input.brand || null
+    if (input.category !== undefined) updateFields.category = input.category
+    if (input.purchase_date !== undefined) updateFields.purchase_date = input.purchase_date
+    if (input.warranty_months !== undefined) updateFields.warranty_months = input.warranty_months
+    if (input.serial_number !== undefined) updateFields.serial_number = input.serial_number || null
+    if (input.warranty_terms !== undefined) updateFields.warranty_terms = input.warranty_terms || null
+    if (input.brand_contact !== undefined) updateFields.brand_contact = input.brand_contact || null
+    if (input.notes !== undefined) updateFields.notes = input.notes || null
+    if (input.image_url !== undefined) updateFields.image_url = input.image_url || null
+
     const { data, error } = await supabase!
       .from('warranties')
-      .update(input)
+      .update(updateFields)
       .eq('id', id)
       .select('*, documents(*)')
       .single()
@@ -232,28 +246,3 @@ export async function fetchReminders(): Promise<(Reminder & { warranty?: Warrant
   }))
 }
 
-// ─── Auth helpers ──────────────────────────────────────────
-
-export async function signUp(email: string, password: string, name: string) {
-  if (!isSupabaseConfigured) throw new Error('Supabase not configured')
-  const { data, error } = await supabase!.auth.signUp({
-    email,
-    password,
-    options: { data: { name } },
-  })
-  if (error) throw error
-  return data
-}
-
-export async function signIn(email: string, password: string) {
-  if (!isSupabaseConfigured) throw new Error('Supabase not configured')
-  const { data, error } = await supabase!.auth.signInWithPassword({ email, password })
-  if (error) throw error
-  return data
-}
-
-export async function signOut() {
-  if (!isSupabaseConfigured) return
-  const { error } = await supabase!.auth.signOut()
-  if (error) throw error
-}

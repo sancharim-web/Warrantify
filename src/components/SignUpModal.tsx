@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@/lib/auth-context'
-import { setActiveDemoUser } from '@/lib/data-provider'
 
 interface SignUpModalProps {
   open: boolean
@@ -18,11 +17,11 @@ export function SignUpModal({ open, onOpenChange }: SignUpModalProps) {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { signUpNew } = useAuth()
+  const { signUp } = useAuth()
 
   if (!open) return null
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
 
@@ -40,14 +39,16 @@ export function SignUpModal({ open, onOpenChange }: SignUpModalProps) {
     }
 
     setLoading(true)
-    setTimeout(() => {
-      setActiveDemoUser('new')
-      signUpNew(name.trim(), email.trim())
+    try {
+      await signUp(email.trim(), password, name.trim())
       queryClient.invalidateQueries()
-      setLoading(false)
       onOpenChange(false)
       navigate('/dashboard')
-    }, 800)
+    } catch (err: any) {
+      setError(err?.message || 'Sign up failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
