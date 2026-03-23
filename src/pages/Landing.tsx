@@ -19,21 +19,21 @@ export function Landing() {
             </div>
             <p className="font-brand font-medium text-[18px] text-black tracking-[-0.36px]">Warrantify</p>
           </div>
-          <div className="flex items-center gap-[32px]">
+          <div className="flex items-center gap-[16px]">
             <a href="#features" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-black transition-colors">Features</a>
             <a href="#how-it-works" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-black transition-colors">How it works</a>
             <a href="#pricing" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-black transition-colors">Pricing</a>
             <button
               onClick={() => setSignUpOpen(true)}
-              className="px-[20px] py-[10px] rounded-[10px] text-text-secondary text-[14px] font-medium tracking-[-0.28px] hover:text-black hover:bg-white transition-colors"
+              className="px-[20px] py-[10px] rounded-[10px] border border-btn-primary text-btn-primary text-[14px] font-medium tracking-[-0.28px] hover:bg-btn-primary/5 transition-colors"
             >
-              Log in
+              Register
             </button>
             <button
               onClick={() => setSignInOpen(true)}
               className="bg-btn-primary px-[20px] py-[10px] rounded-[10px] text-white text-[14px] font-medium tracking-[-0.28px] hover:opacity-90 transition-opacity"
             >
-              Sign in
+              Log in
             </button>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function Landing() {
                     <div className="w-[22px] h-[22px] rounded-full bg-btn-primary flex items-center justify-center">
                       <span className="text-[9px] font-medium text-white">S</span>
                     </div>
-                    <span className="font-medium text-[12px] text-text-body tracking-[-0.24px]">Sasha</span>
+                    <span className="font-medium text-[12px] text-text-body tracking-[-0.24px]">Sanchari</span>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="ml-auto"><path d="M3 4L5 6L7 4" stroke="#9F8EAB" strokeWidth="1" strokeLinecap="round"/></svg>
                   </div>
                   <div className="flex flex-col gap-[2px]">
@@ -116,7 +116,7 @@ export function Landing() {
                 {/* Main area */}
                 <div className="flex-1 bg-page p-[24px] flex flex-col gap-[16px] min-h-[280px]">
                   {/* Greeting */}
-                  <p className="font-brand font-medium text-[16px] text-black tracking-[-0.32px] text-center">Hello Sasha!</p>
+                  <p className="font-brand font-medium text-[16px] text-black tracking-[-0.32px] text-center">Hello Sanchari!</p>
                   {/* Search bar */}
                   <div className="bg-white rounded-[8px] px-[12px] py-[8px] flex items-center justify-between">
                     <span className="font-medium text-[11px] text-text-muted tracking-[-0.22px]">Add a new product...</span>

@@ -10,7 +10,7 @@ let newUserWarranties: Warranty[] = []
 let newUserReminders: (Reminder & { warranty?: Warranty })[] = []
 let nextId = 100
 
-// Track which demo user is active: 'existing' (Sasha) or 'new' (empty account)
+// Track which demo user is active: 'existing' (Sanchari) or 'new' (empty account)
 let activeDemoUser: 'existing' | 'new' = 'existing'
 
 export function setActiveDemoUser(type: 'existing' | 'new') {

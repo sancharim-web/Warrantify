@@ -10,8 +10,8 @@ export interface DemoUser {
 const DEMO_USERS: Record<string, DemoUser> = {
   existing: {
     id: 'demo-user',
-    name: 'Sasha',
-    email: 'sasha@email.com',
+    name: 'Sanchari',
+    email: 'sanchari@email.com',
     type: 'existing',
   },
   new: {

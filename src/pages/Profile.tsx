@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 
 export function Profile() {
-  const [name, setName] = useState('Sasha')
-  const [email, setEmail] = useState('sasha@email.com')
+  const [name, setName] = useState('Sanchari')
+  const [email, setEmail] = useState('sanchari@email.com')
   const [phone, setPhone] = useState('+1 (555) 123-4567')
   const [location, setLocation] = useState('San Francisco, CA')
   const [avatar, setAvatar] = useState<string | null>(null)
