@@ -7,7 +7,6 @@ import { WarrantyCard } from '@/components/WarrantyCard'
 import { useAuth } from '@/lib/auth-context'
 import type { WarrantyWithStatus } from '@/types'
 import addCircleIcon from '@/assets/icons/add-circle.svg'
-import attachIcon from '@/assets/icons/attach.svg'
 import filterIcon from '@/assets/icons/filter.svg'
 
 type SortOption = 'expiry_asc' | 'expiry_desc' | 'name_asc' | 'name_desc' | 'recent'
@@ -21,7 +20,7 @@ const SORT_LABELS: Record<SortOption, string> = {
 }
 
 export function Dashboard() {
-  const { onNewProduct, onNewProductWithName, onOpenAttachment } = useOutletContext<{ onNewProduct: () => void; onNewProductWithName: (name: string) => void; onOpenAttachment: () => void }>()
+  const { onNewProduct, onNewProductWithName } = useOutletContext<{ onNewProduct: () => void; onNewProductWithName: (name: string) => void; onOpenAttachment: () => void }>()
   const { user } = useAuth()
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('expiry_asc')

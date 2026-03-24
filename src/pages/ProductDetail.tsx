@@ -63,7 +63,7 @@ export function ProductDetail() {
     : 'Expired'
 
   const hasImage = !!enriched.image_url
-  const hasDocuments = enriched.documents && enriched.documents.length > 0
+  const hasDocuments = !!(enriched.documents && enriched.documents.length > 0)
   const hasMedia = hasImage || hasDocuments
 
   return (
