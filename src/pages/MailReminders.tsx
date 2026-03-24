@@ -103,6 +103,7 @@ export function MailReminders() {
         <div className="flex-1 py-[10px]">
           <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Mail reminders</p>
         </div>
+        <div className="flex items-center gap-[16px]">
         {/* Add reminder button */}
         <button
           onClick={() => setAddReminderOpen(true)}
@@ -146,6 +147,7 @@ export function MailReminders() {
               ))}
             </div>
           )}
+        </div>
         </div>
       </div>
 

@@ -28,6 +28,7 @@ function makeWarranty(
     brand_contact: null,
     notes: null,
     image_url: null,
+    gallery_urls: [],
     created_at: purchase_date,
     updated_at: purchase_date,
     trashed_at: null,

@@ -107,9 +107,6 @@ export function Dashboard() {
             className="font-medium text-[16px] text-text-body tracking-[-0.32px] placeholder:text-text-secondary bg-transparent outline-none flex-1 min-w-0"
           />
           <div className="flex gap-[8px] items-center shrink-0">
-            <button type="button" onClick={onOpenAttachment} className="hover:opacity-70 transition-opacity">
-              <img src={attachIcon} alt="" className="w-[20px] h-[20px]" />
-            </button>
             <button type="submit" className="bg-btn-primary rounded-full w-[32px] h-[32px] flex items-center justify-center hover:opacity-90 transition-opacity">
               <img src={addCircleIcon} alt="" className="w-[20px] h-[20px] brightness-0 invert" />
             </button>

@@ -153,16 +153,24 @@ export function Shredder() {
                   <button
                     onClick={() => restoreMutation.mutate(selected.id)}
                     disabled={restoreMutation.isPending}
-                    className="bg-btn-primary px-[16px] py-[12px] rounded-[12px] text-white text-[16px] font-medium tracking-[-0.32px] hover:opacity-90 transition-opacity"
+                    className="flex items-center gap-[8px] bg-btn-primary px-[20px] py-[12px] rounded-[12px] text-white text-[15px] font-medium tracking-[-0.3px] hover:opacity-90 transition-opacity"
                   >
-                    Restore product
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M2 8C2 4.69 4.69 2 8 2C11.31 2 14 4.69 14 8C14 11.31 11.31 14 8 14" stroke="white" strokeWidth="1.3" strokeLinecap="round"/>
+                      <path d="M2 5V8H5" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    {restoreMutation.isPending ? 'Recovering...' : 'Recover warranty'}
                   </button>
                   <button
                     onClick={() => handlePermanentDelete(selected.id)}
                     disabled={deleteMutation.isPending}
-                    className="px-[16px] py-[12px] rounded-[12px] text-status-expiring text-[16px] font-medium tracking-[-0.32px] hover:bg-status-expiring-bg transition-colors"
+                    className="flex items-center gap-[8px] px-[20px] py-[12px] rounded-[12px] border border-status-expiring/30 text-status-expiring text-[15px] font-medium tracking-[-0.3px] hover:bg-status-expiring-bg transition-colors"
                   >
-                    Delete permanently
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 4H13M6 4V3H10V4M5 4V13H11V4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M7 7V10.5M9 7V10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                    </svg>
+                    {deleteMutation.isPending ? 'Deleting...' : 'Delete permanently'}
                   </button>
                 </div>
               </div>

@@ -26,6 +26,7 @@ export interface Warranty {
   created_at: string
   updated_at: string
   image_url: string | null
+  gallery_urls: string[] | null
   trashed_at: string | null
   documents?: Document[]
 }
@@ -63,4 +64,5 @@ export interface CreateWarrantyInput {
   brand_contact?: string
   notes?: string
   image_url?: string
+  gallery_urls?: string[]
 }

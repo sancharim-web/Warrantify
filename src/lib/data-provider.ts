@@ -102,6 +102,7 @@ export async function createWarranty(input: CreateWarrantyInput): Promise<Warran
         brand_contact: input.brand_contact || null,
         notes: input.notes || null,
         image_url: input.image_url || null,
+        gallery_urls: input.gallery_urls || [],
       })
       .select('*, documents(*)')
       .single()
@@ -123,6 +124,7 @@ export async function createWarranty(input: CreateWarrantyInput): Promise<Warran
     brand_contact: input.brand_contact ?? null,
     notes: input.notes ?? null,
     image_url: input.image_url ?? null,
+    gallery_urls: input.gallery_urls ?? [],
     created_at: now,
     updated_at: now,
     trashed_at: null,
@@ -146,6 +148,7 @@ export async function updateWarranty(id: string, input: Partial<CreateWarrantyIn
     if (input.brand_contact !== undefined) updateFields.brand_contact = input.brand_contact || null
     if (input.notes !== undefined) updateFields.notes = input.notes || null
     if (input.image_url !== undefined) updateFields.image_url = input.image_url || null
+    if (input.gallery_urls !== undefined) updateFields.gallery_urls = input.gallery_urls || []
 
     const { data, error } = await supabase!
       .from('warranties')
@@ -168,6 +171,7 @@ export async function updateWarranty(id: string, input: Partial<CreateWarrantyIn
     warranty_terms: input.warranty_terms ?? existing.warranty_terms,
     brand_contact: input.brand_contact ?? existing.brand_contact,
     notes: input.notes ?? existing.notes,
+    gallery_urls: input.gallery_urls ?? existing.gallery_urls,
     expiry_date: input.purchase_date || input.warranty_months
       ? format(
           addMonths(
@@ -227,6 +231,74 @@ export async function permanentlyDeleteWarranty(id: string): Promise<void> {
   }
   setLocalWarranties(getLocalWarranties().filter((w) => w.id !== id))
   setLocalReminders(getLocalReminders().filter((r) => r.warranty_id !== id))
+}
+
+// ─── Image Upload ─────────────────────────────────────────
+
+export async function uploadWarrantyImage(warrantyId: string, file: File): Promise<string> {
+  if (await isAuthenticated()) {
+    const { data: { user } } = await supabase!.auth.getUser()
+    if (!user) throw new Error('Not authenticated')
+
+    const ext = file.name.split('.').pop() || 'jpg'
+    const path = `${user.id}/${warrantyId}/cover.${ext}`
+
+    const { error: uploadError } = await supabase!.storage
+      .from('warranty-docs')
+      .upload(path, file, { upsert: true })
+    if (uploadError) throw uploadError
+
+    const { data: urlData } = supabase!.storage
+      .from('warranty-docs')
+      .getPublicUrl(path)
+
+    const publicUrl = urlData.publicUrl
+
+    // Save as image_url on the warranty
+    await updateWarranty(warrantyId, { image_url: publicUrl })
+
+    return publicUrl
+  }
+
+  // Local fallback: use data URL
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = async () => {
+      const dataUrl = reader.result as string
+      await updateWarranty(warrantyId, { image_url: dataUrl })
+      resolve(dataUrl)
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
+export async function uploadGalleryImage(warrantyId: string, file: File): Promise<string> {
+  const uniqueId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  if (await isAuthenticated()) {
+    const { data: { user } } = await supabase!.auth.getUser()
+    if (!user) throw new Error('Not authenticated')
+
+    const ext = file.name.split('.').pop() || 'jpg'
+    const path = `${user.id}/${warrantyId}/gallery/${uniqueId}.${ext}`
+
+    const { error: uploadError } = await supabase!.storage
+      .from('warranty-docs')
+      .upload(path, file, { upsert: true })
+    if (uploadError) throw uploadError
+
+    const { data: urlData } = supabase!.storage
+      .from('warranty-docs')
+      .getPublicUrl(path)
+
+    return urlData.publicUrl
+  }
+
+  // Local fallback: use data URL
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.readAsDataURL(file)
+  })
 }
 
 // ─── Reminders ─────────────────────────────────────────────

@@ -211,32 +211,57 @@ export function AddProductModal({ open, onOpenChange, onSubmit, initialProductNa
 
               {/* Upload section */}
               <ModalField label="Upload Warranty Card / Receipt">
-                <div className="bg-inner rounded-[8px] p-[16px] flex gap-[12px] items-start flex-wrap">
-                  {attachments.filter((f) => f.type === 'image').map((f) => (
-                    <div key={f.id} className="relative w-[130px] h-[104px] rounded-[8px] overflow-hidden shrink-0">
-                      <img src={f.dataUrl} alt={f.name} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                  {attachments.filter((f) => f.type === 'document').map((f) => (
-                    <div key={f.id} className="flex flex-col items-center justify-center gap-[6px] w-[130px] h-[104px] bg-panel rounded-[8px] shrink-0">
-                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
-                        <path d="M4 2H9L12 5V14H4V2Z" stroke="#706478" strokeWidth="1.2" strokeLinejoin="round"/>
-                        <path d="M9 2V5H12" stroke="#706478" strokeWidth="1.2" strokeLinejoin="round"/>
-                        <path d="M6 8H10M6 10.5H10" stroke="#706478" strokeWidth="1.2" strokeLinecap="round"/>
-                      </svg>
-                      <p className="font-medium text-[11px] text-text-muted tracking-[-0.22px] truncate max-w-[110px] px-[4px]">{f.name}</p>
-                    </div>
-                  ))}
+                {attachments.length === 0 ? (
                   <button
                     type="button"
                     onClick={onOpenAttachment}
-                    className="bg-inner border border-btn-primary border-solid rounded-[8px] flex items-center justify-center w-[130px] h-[104px] shrink-0 hover:opacity-80 transition-opacity"
+                    className="w-full border-[1.5px] border-dashed border-[#d4d2de] rounded-[12px] py-[32px] flex flex-col items-center gap-[10px] hover:border-btn-primary/50 hover:bg-btn-primary/[0.03] transition-colors group"
                   >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 5V19M5 12H19" stroke="#7d7086" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                    <div className="w-[44px] h-[44px] rounded-[12px] bg-inner flex items-center justify-center group-hover:bg-btn-primary/10 transition-colors">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 4V10M10 10V16M10 10H16M10 10H4" stroke="#9c9ba1" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </div>
+                    <div className="flex flex-col items-center gap-[2px]">
+                      <p className="font-medium text-[13px] text-text-body tracking-[-0.26px]">Click to upload</p>
+                      <p className="font-medium text-[11px] text-text-muted tracking-[-0.22px]">JPG, PNG, or PDF up to 10MB</p>
+                    </div>
                   </button>
-                </div>
+                ) : (
+                  <div className="flex flex-col gap-[12px]">
+                    <div className="flex gap-[10px] flex-wrap">
+                      {attachments.filter((f) => f.type === 'image').map((f) => (
+                        <div key={f.id} className="relative w-[100px] h-[100px] rounded-[10px] overflow-hidden shrink-0 group">
+                          <img src={f.dataUrl} alt={f.name} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent px-[6px] py-[5px]">
+                            <p className="text-white text-[10px] font-medium truncate">{f.name}</p>
+                          </div>
+                        </div>
+                      ))}
+                      {attachments.filter((f) => f.type === 'document').map((f) => (
+                        <div key={f.id} className="flex flex-col items-center justify-center gap-[6px] w-[100px] h-[100px] bg-inner rounded-[10px] shrink-0">
+                          <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                            <path d="M4 2H9L12 5V14H4V2Z" stroke="#706478" strokeWidth="1.2" strokeLinejoin="round"/>
+                            <path d="M9 2V5H12" stroke="#706478" strokeWidth="1.2" strokeLinejoin="round"/>
+                            <path d="M6 8H10M6 10.5H10" stroke="#706478" strokeWidth="1.2" strokeLinecap="round"/>
+                          </svg>
+                          <p className="font-medium text-[10px] text-text-muted tracking-[-0.2px] truncate max-w-[80px] px-[4px]">{f.name}</p>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={onOpenAttachment}
+                        className="shrink-0 w-[100px] h-[100px] rounded-[10px] border-[1.5px] border-dashed border-[#d4d2de] flex flex-col items-center justify-center gap-[4px] hover:border-btn-primary/50 hover:bg-btn-primary/[0.03] transition-colors"
+                      >
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                          <path d="M9 4V14M4 9H14" stroke="#9c9ba1" strokeWidth="1.3" strokeLinecap="round"/>
+                        </svg>
+                        <span className="text-[10px] font-medium text-text-muted">Add more</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </ModalField>
 
               {/* Notes */}
