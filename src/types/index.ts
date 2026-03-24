@@ -65,4 +65,5 @@ export interface CreateWarrantyInput {
   notes?: string
   image_url?: string
   gallery_urls?: string[]
+  reminder_preference?: string
 }

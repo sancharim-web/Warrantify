@@ -49,8 +49,8 @@ export function WarrantyCard({ warranty }: WarrantyCardProps) {
       className={`bg-card-bg flex flex-col gap-[12px] p-[12px] rounded-[12px] w-[264px] shrink-0 cursor-pointer ${isExpired ? 'opacity-65' : ''}`}
     >
       {/* Image */}
-      {warranty.image_url ? (
-        <img src={warranty.image_url} alt={warranty.product_name} className="h-[118px] rounded-[8px] w-full object-cover" />
+      {(warranty.image_url || (warranty.gallery_urls && warranty.gallery_urls.length > 0)) ? (
+        <img src={warranty.image_url || warranty.gallery_urls![0]} alt={warranty.product_name} className="h-[118px] rounded-[8px] w-full object-cover" />
       ) : (
         <div className="bg-placeholder h-[118px] rounded-[8px] w-full" />
       )}

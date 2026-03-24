@@ -1,23 +1,74 @@
 import { useState, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/lib/auth-context'
+import { fetchWarranties, fetchReminders } from '@/lib/data-provider'
+import { enrichWarranty } from '@/lib/warranty-utils'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 
 export function Profile() {
-  const { user } = useAuth()
+  const { user, avatarUrl, setAvatarUrl } = useAuth()
   const [name, setName] = useState(user?.name || 'User')
   const [email, setEmail] = useState(user?.email || 'user@email.com')
-  const [phone, setPhone] = useState('+1 (555) 123-4567')
-  const [location, setLocation] = useState('San Francisco, CA')
-  const [avatar, setAvatar] = useState<string | null>(null)
+  const [phone, setPhone] = useState('')
+  const [location, setLocation] = useState('')
+  const [pendingAvatar, setPendingAvatar] = useState<string | null>(null)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [savingAvatar, setSavingAvatar] = useState(false)
   const [editing, setEditing] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const displayAvatar = pendingAvatar || avatarUrl
+
+  const { data: warranties = [] } = useQuery({ queryKey: ['warranties'], queryFn: fetchWarranties })
+  const { data: reminders = [] } = useQuery({ queryKey: ['reminders'], queryFn: fetchReminders })
+  const enriched = warranties.map(enrichWarranty)
+  const totalProducts = enriched.length
+  const activeWarranties = enriched.filter((w) => w.status === 'active').length
+  const expiringSoon = enriched.filter((w) => w.status === 'expiring_soon').length
+  const remindersSent = reminders.length
 
   function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
+    setPendingFile(file)
     const reader = new FileReader()
-    reader.onload = () => setAvatar(reader.result as string)
+    reader.onload = () => setPendingAvatar(reader.result as string)
     reader.readAsDataURL(file)
     e.target.value = ''
+  }
+
+  async function handleSaveAvatar() {
+    if (!pendingAvatar) return
+    setSavingAvatar(true)
+    try {
+      let savedUrl = pendingAvatar
+      if (isSupabaseConfigured && supabase && pendingFile && user) {
+        // Upload to Supabase Storage
+        const ext = pendingFile.name.split('.').pop() || 'jpg'
+        const path = `${user.id}/avatar.${ext}`
+        const { error: uploadError } = await supabase.storage
+          .from('warranty-docs')
+          .upload(path, pendingFile, { upsert: true })
+        if (uploadError) throw uploadError
+
+        const { data: urlData } = supabase.storage
+          .from('warranty-docs')
+          .getPublicUrl(path)
+        savedUrl = urlData.publicUrl
+
+        // Save URL in user_metadata so it loads on refresh
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: { avatar_url: savedUrl },
+        })
+        if (updateError) throw updateError
+      }
+      setAvatarUrl(savedUrl)
+      setPendingAvatar(null)
+      setPendingFile(null)
+    } catch (err) {
+      console.error('Failed to save avatar:', err)
+    } finally {
+      setSavingAvatar(false)
+    }
   }
 
   return (
@@ -36,8 +87,8 @@ export function Profile() {
             className="relative group shrink-0"
           >
             <div className="w-[80px] h-[80px] rounded-full overflow-hidden bg-btn-primary flex items-center justify-center">
-              {avatar ? (
-                <img src={avatar} alt="Profile" className="w-full h-full object-cover" />
+              {displayAvatar ? (
+                <img src={displayAvatar} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-[32px] font-medium text-white">{name[0]?.toUpperCase() || 'U'}</span>
               )}
@@ -61,12 +112,32 @@ export function Profile() {
             <p className="font-medium text-[15px] text-text-muted tracking-[-0.3px]">{email}</p>
           </div>
 
-          <button
-            onClick={() => fileRef.current?.click()}
-            className="px-[16px] py-[8px] rounded-[12px] bg-inner text-[13px] font-medium text-text-body tracking-[-0.26px] hover:opacity-80 transition-opacity shrink-0"
-          >
-            Change photo
-          </button>
+          <div className="flex items-center gap-[8px] shrink-0">
+            <button
+              onClick={() => fileRef.current?.click()}
+              className="px-[16px] py-[8px] rounded-[12px] bg-inner text-[13px] font-medium text-text-body tracking-[-0.26px] hover:opacity-80 transition-opacity"
+            >
+              Change photo
+            </button>
+            {pendingAvatar && (
+              <button
+                onClick={handleSaveAvatar}
+                disabled={savingAvatar}
+                className="flex items-center gap-[6px] px-[16px] py-[8px] rounded-[12px] bg-btn-primary text-white hover:opacity-90 transition-opacity"
+              >
+                {savingAvatar ? (
+                  <div className="w-[14px] h-[14px] border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7L6 10L11 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+                <span className="font-medium text-[13px] tracking-[-0.26px]">
+                  {savingAvatar ? 'Saving...' : 'Save'}
+                </span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -94,22 +165,74 @@ export function Profile() {
               onChange={setEmail}
               onSave={() => setEditing(null)}
             />
-            <EditableRow
-              label="Phone Number"
-              value={phone}
-              editing={editing === 'phone'}
-              onEdit={() => setEditing('phone')}
-              onChange={setPhone}
-              onSave={() => setEditing(null)}
-            />
-            <EditableRow
-              label="Location"
-              value={location}
-              editing={editing === 'location'}
-              onEdit={() => setEditing('location')}
-              onChange={setLocation}
-              onSave={() => setEditing(null)}
-            />
+            {(phone || editing === 'phone') && (
+              <EditableRow
+                label="Phone Number"
+                value={phone}
+                editing={editing === 'phone'}
+                onEdit={() => setEditing('phone')}
+                onChange={setPhone}
+                onSave={() => setEditing(null)}
+              />
+            )}
+            {(location || editing === 'location') && (
+              <EditableRow
+                label="Location"
+                value={location}
+                editing={editing === 'location'}
+                onEdit={() => setEditing('location')}
+                onChange={setLocation}
+                onSave={() => setEditing(null)}
+              />
+            )}
+            {!phone && !location && editing !== 'phone' && editing !== 'location' && (
+              <div className="flex gap-[10px] pt-[8px]">
+                <button
+                  onClick={() => setEditing('phone')}
+                  className="flex items-center gap-[6px] px-[12px] py-[6px] rounded-[8px] bg-btn-primary/10 hover:bg-btn-primary/15 transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 3V11M3 7H11" stroke="#7d7086" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <span className="font-medium text-[13px] text-btn-primary tracking-[-0.26px]">Add phone</span>
+                </button>
+                <button
+                  onClick={() => setEditing('location')}
+                  className="flex items-center gap-[6px] px-[12px] py-[6px] rounded-[8px] bg-btn-primary/10 hover:bg-btn-primary/15 transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 3V11M3 7H11" stroke="#7d7086" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <span className="font-medium text-[13px] text-btn-primary tracking-[-0.26px]">Add location</span>
+                </button>
+              </div>
+            )}
+            {phone && !location && editing !== 'location' && (
+              <div className="pt-[8px]">
+                <button
+                  onClick={() => setEditing('location')}
+                  className="flex items-center gap-[6px] px-[12px] py-[6px] rounded-[8px] bg-btn-primary/10 hover:bg-btn-primary/15 transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 3V11M3 7H11" stroke="#7d7086" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <span className="font-medium text-[13px] text-btn-primary tracking-[-0.26px]">Add location</span>
+                </button>
+              </div>
+            )}
+            {!phone && location && editing !== 'phone' && (
+              <div className="pt-[8px]">
+                <button
+                  onClick={() => setEditing('phone')}
+                  className="flex items-center gap-[6px] px-[12px] py-[6px] rounded-[8px] bg-btn-primary/10 hover:bg-btn-primary/15 transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 3V11M3 7H11" stroke="#7d7086" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <span className="font-medium text-[13px] text-btn-primary tracking-[-0.26px]">Add phone</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -119,10 +242,10 @@ export function Profile() {
         <div className="flex flex-col gap-[24px]">
           <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Account Overview</p>
           <div className="flex gap-[16px]">
-            <StatCard label="Products tracked" value="12" />
-            <StatCard label="Active warranties" value="9" />
-            <StatCard label="Expiring soon" value="3" />
-            <StatCard label="Reminders sent" value="6" />
+            <StatCard label="Products tracked" value={String(totalProducts)} />
+            <StatCard label="Active warranties" value={String(activeWarranties)} />
+            <StatCard label="Expiring soon" value={String(expiringSoon)} />
+            <StatCard label="Reminders sent" value={String(remindersSent)} />
           </div>
         </div>
       </div>

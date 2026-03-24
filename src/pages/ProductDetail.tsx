@@ -536,6 +536,39 @@ function MediaSection({
     }
   }
 
+  function handleRemoveImage(index: number) {
+    const isCover = coverUrl && index === 0
+    if (isCover) {
+      if (!window.confirm('Remove the cover image?')) return
+      // Promote first gallery image to cover if available
+      if (galleryUrls.length > 0) {
+        const newCover = galleryUrls[0]
+        const remainingGallery = galleryUrls.slice(1)
+        setCoverUrl(newCover)
+        setGalleryUrls(remainingGallery)
+        setLastSavedGallery(remainingGallery)
+        updateWarranty(warrantyId, { image_url: newCover, gallery_urls: remainingGallery }).then(() => {
+          queryClient.invalidateQueries({ queryKey: ['warranty', warrantyId] })
+          queryClient.invalidateQueries({ queryKey: ['warranties'] })
+        })
+      } else {
+        setCoverUrl(null)
+        updateWarranty(warrantyId, { image_url: '' }).then(() => {
+          queryClient.invalidateQueries({ queryKey: ['warranty', warrantyId] })
+          queryClient.invalidateQueries({ queryKey: ['warranties'] })
+        })
+      }
+    } else {
+      const galleryIndex = coverUrl ? index - 1 : index
+      const updated = galleryUrls.filter((_, i) => i !== galleryIndex)
+      setGalleryUrls(updated)
+      setLastSavedGallery(updated)
+      updateWarranty(warrantyId, { gallery_urls: updated }).then(() => {
+        queryClient.invalidateQueries({ queryKey: ['warranty', warrantyId] })
+      })
+    }
+  }
+
   const allImages: string[] = []
   if (coverUrl) allImages.push(coverUrl)
   allImages.push(...galleryUrls)
@@ -730,15 +763,38 @@ function MediaSection({
                 alt="Preview"
                 className="max-w-[90vw] max-h-[70vh] rounded-[12px] object-contain"
               />
-              {/* Close button */}
-              <button
-                onClick={() => setPreviewIndex(null)}
-                className="absolute top-[12px] right-[12px] w-[36px] h-[36px] rounded-full bg-black/50 backdrop-blur-[8px] flex items-center justify-center hover:bg-black/70 transition-colors"
-              >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3 3L11 11M11 3L3 11" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-              </button>
+              {/* Top-right actions */}
+              <div className="absolute top-[12px] right-[12px] flex items-center gap-[8px]">
+                <button
+                  onClick={() => {
+                    const idx = previewIndex!
+                    handleRemoveImage(idx)
+                    // Navigate to prev image or close if none left
+                    const remaining = allImages.length - 1
+                    if (remaining === 0) {
+                      setPreviewIndex(null)
+                    } else {
+                      setPreviewIndex(Math.min(idx, remaining - 1))
+                    }
+                    setActiveIndex(0)
+                  }}
+                  className="h-[36px] px-[14px] rounded-full bg-red-500/80 backdrop-blur-[8px] flex items-center gap-[6px] hover:bg-red-500 transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 3.5H11.5M5.5 3.5V2.5H8.5V3.5M4 3.5V12H10V3.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 6V9.5M8 6V9.5" stroke="white" strokeWidth="1.2" strokeLinecap="round"/>
+                  </svg>
+                  <span className="text-white text-[12px] font-medium">Remove</span>
+                </button>
+                <button
+                  onClick={() => setPreviewIndex(null)}
+                  className="w-[36px] h-[36px] rounded-full bg-black/50 backdrop-blur-[8px] flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 3L11 11M11 3L3 11" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
               {/* Nav arrows */}
               {allImages.length > 1 && (
                 <>

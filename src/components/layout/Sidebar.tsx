@@ -26,7 +26,7 @@ export function Sidebar({ onNewProduct }: SidebarProps) {
   const [profileOpen, setProfileOpen] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
-  const { user, signOut } = useAuth()
+  const { user, avatarUrl, signOut } = useAuth()
   const queryClient = useQueryClient()
 
   const userName = user?.name || 'User'
@@ -54,7 +54,11 @@ export function Sidebar({ onNewProduct }: SidebarProps) {
             className="flex items-center gap-[9px] w-full rounded-[8px] hover:opacity-80 transition-opacity"
           >
             <div className="w-[28px] h-[28px] rounded-full bg-btn-primary overflow-hidden flex items-center justify-center shrink-0">
-              <span className="text-[12px] font-medium text-white">{userInitial}</span>
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-[12px] font-medium text-white">{userInitial}</span>
+              )}
             </div>
             <p className="font-medium text-[15px] text-text-secondary tracking-[-0.3px] flex-1 text-left">{userName}</p>
             <svg

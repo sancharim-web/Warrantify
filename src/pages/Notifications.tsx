@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
 import filterIcon from '@/assets/icons/filter.svg'
 
 const SCHEDULE_OPTIONS = [
@@ -9,6 +10,8 @@ const SCHEDULE_OPTIONS = [
 ] as const
 
 export function Notifications() {
+  const { user } = useAuth()
+  const initialEmail = user?.email ?? 'user@email.com'
   const [emailEnabled, setEmailEnabled] = useState(true)
   const [pushEnabled, setPushEnabled] = useState(true)
   const [dndEnabled, setDndEnabled] = useState(false)
@@ -17,7 +20,19 @@ export function Notifications() {
   )
   const [fromTime, setFromTime] = useState('10:00')
   const [toTime, setToTime] = useState('08:00')
-  const [email, setEmail] = useState('user@email.com')
+  const [email, setEmail] = useState(initialEmail)
+  const [savedEmail, setSavedEmail] = useState(initialEmail)
+  const [savingEmail, setSavingEmail] = useState(false)
+
+  const emailChanged = email.trim() !== savedEmail
+
+  async function handleSaveEmail() {
+    setSavingEmail(true)
+    // TODO: persist to user profile / Supabase when backend supports it
+    await new Promise((r) => setTimeout(r, 400))
+    setSavedEmail(email.trim())
+    setSavingEmail(false)
+  }
 
   function toggleSchedule(id: string) {
     setActiveSchedule((prev) => {
@@ -143,12 +158,32 @@ export function Notifications() {
           <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Email Reference</p>
           <div className="flex flex-col gap-[8px]">
             <p className="font-medium text-[15px] text-text-secondary tracking-[-0.3px]">Notification Email</p>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-black outline-none"
-            />
+            <div className="flex gap-[10px] items-center">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-black outline-none"
+              />
+              {emailChanged && (
+                <button
+                  onClick={handleSaveEmail}
+                  disabled={savingEmail || !email.trim()}
+                  className="flex items-center gap-[6px] px-[16px] h-[35px] rounded-[8px] bg-btn-primary text-white hover:opacity-90 transition-opacity shrink-0"
+                >
+                  {savingEmail ? (
+                    <div className="w-[14px] h-[14px] border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M3 7L6 10L11 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                  <span className="font-medium text-[13px] tracking-[-0.26px]">
+                    {savingEmail ? 'Saving...' : 'Save'}
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

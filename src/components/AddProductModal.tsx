@@ -198,10 +198,21 @@ export function AddProductModal({ open, onOpenChange, onSubmit, initialProductNa
                     />
                   </ModalField>
 
-                  <ModalField label="Reminders Enabled">
-                    <div className="relative w-full bg-inner rounded-[8px] p-[10px] pr-[32px] text-[13px] font-medium tracking-[-0.26px] text-text-body">
-                      Notify me 30 days before
-                      <svg className="absolute right-[10px] top-1/2 -translate-y-1/2" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <ModalField label="Reminders">
+                    <div className="relative">
+                      <select
+                        value={form.reminder_preference ?? '30_day'}
+                        onChange={(e) => update('reminder_preference', e.target.value)}
+                        className="w-full bg-inner rounded-[8px] p-[10px] pr-[32px] text-[13px] font-medium tracking-[-0.26px] text-text-body outline-none appearance-none"
+                      >
+                        <option value="30_day">Notify me 30 days before</option>
+                        <option value="7_day">Notify me 7 days before</option>
+                        <option value="1_day">Notify me 1 day before</option>
+                        <option value="30_and_7">Notify at 30 & 7 days</option>
+                        <option value="all">Notify at 30, 7 & 1 day</option>
+                        <option value="none">No reminders</option>
+                      </select>
+                      <svg className="absolute right-[10px] top-1/2 -translate-y-1/2 pointer-events-none" width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M4 6L8 10L12 6" stroke="#584f5e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
