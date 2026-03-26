@@ -61,20 +61,20 @@ export function Landing() {
           {/* Hero Illustration */}
           <div className="w-full max-w-[960px] mt-[24px] relative">
             {/* Floating decorative elements */}
-            <div className="absolute -top-[20px] -left-[30px] w-[60px] h-[60px] rounded-[14px] bg-[#cde9d9] rotate-12 opacity-60" />
-            <div className="absolute -top-[10px] -right-[20px] w-[44px] h-[44px] rounded-full bg-[#ffd6d6] opacity-50" />
+            <div className="absolute -top-[20px] -left-[30px] w-[60px] h-[60px] rounded-[14px] bg-status-active-bg rotate-12 opacity-60" />
+            <div className="absolute -top-[10px] -right-[20px] w-[44px] h-[44px] rounded-full bg-status-expiring-bg opacity-50" />
             <div className="absolute -bottom-[16px] left-[80px] w-[36px] h-[36px] rounded-[10px] bg-sidebar-active/30 -rotate-6" />
 
             <div className="bg-panel rounded-[20px] shadow-[0px_12px_60px_rgba(125,112,134,0.15)] p-[3px] relative overflow-hidden">
               {/* Top bar */}
-              <div className="bg-[#faf9fb] rounded-t-[17px] px-[20px] py-[10px] flex items-center gap-[8px] border-b border-[#eee]">
+              <div className="bg-inner rounded-t-[17px] px-[20px] py-[10px] flex items-center gap-[8px] border-b border-inner-border">
                 <div className="flex gap-[6px]">
-                  <div className="w-[10px] h-[10px] rounded-full bg-[#e8e6ec]" />
-                  <div className="w-[10px] h-[10px] rounded-full bg-[#e8e6ec]" />
-                  <div className="w-[10px] h-[10px] rounded-full bg-[#e8e6ec]" />
+                  <div className="w-[10px] h-[10px] rounded-full bg-filter-icon" />
+                  <div className="w-[10px] h-[10px] rounded-full bg-filter-icon" />
+                  <div className="w-[10px] h-[10px] rounded-full bg-filter-icon" />
                 </div>
                 <div className="flex-1 flex justify-center">
-                  <div className="bg-[#eee] rounded-[6px] px-[24px] py-[3px]">
+                  <div className="bg-inner-border rounded-[6px] px-[24px] py-[3px]">
                     <span className="font-medium text-[10px] text-text-muted tracking-[-0.2px]">warrantify.app</span>
                   </div>
                 </div>
@@ -88,7 +88,7 @@ export function Landing() {
                       <span className="text-[9px] font-medium text-white">S</span>
                     </div>
                     <span className="font-medium text-[12px] text-text-body tracking-[-0.24px]">Sanchari</span>
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="ml-auto"><path d="M3 4L5 6L7 4" stroke="#9F8EAB" strokeWidth="1" strokeLinecap="round"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="ml-auto"><path d="M3 4L5 6L7 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/></svg>
                   </div>
                   <div className="flex flex-col gap-[2px]">
                     {[
@@ -145,7 +145,7 @@ export function Landing() {
 
             {/* Floating notification badge */}
             <div className="absolute -right-[16px] top-[80px] bg-panel rounded-[12px] shadow-[0_4px_20px_rgba(0,0,0,0.1)] px-[14px] py-[10px] flex items-center gap-[8px] animate-bounce" style={{ animationDuration: '3s' }}>
-              <div className="w-[28px] h-[28px] rounded-[6px] bg-[#cde9d9] flex items-center justify-center">
+              <div className="w-[28px] h-[28px] rounded-[6px] bg-status-active-bg flex items-center justify-center">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7L5.5 9.5L11 4" stroke="#009f47" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
               <div className="flex flex-col">
@@ -163,7 +163,7 @@ export function Landing() {
           <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px] uppercase">Manage warranties for products from</p>
           <div className="flex items-center gap-[48px] flex-wrap justify-center">
             {['Apple', 'Samsung', 'Sony', 'LG', 'Dyson', 'Bosch', 'IKEA', 'Philips'].map((brand) => (
-              <span key={brand} className="font-brand font-medium text-[18px] text-[#c4c2c8] tracking-[-0.36px]">{brand}</span>
+              <span key={brand} className="font-brand font-medium text-[18px] text-text-muted tracking-[-0.36px]">{brand}</span>
             ))}
           </div>
         </div>
@@ -400,7 +400,7 @@ export function Landing() {
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
     <div className="bg-panel rounded-[16px] p-[28px] flex flex-col gap-[16px] hover:shadow-[0px_4px_20px_rgba(0,0,0,0.06)] transition-shadow">
-      <div className="w-[44px] h-[44px] rounded-[10px] bg-[#f0edf3] flex items-center justify-center text-btn-primary">
+      <div className="w-[44px] h-[44px] rounded-[10px] bg-inner flex items-center justify-center text-btn-primary">
         {icon}
       </div>
       <p className="font-medium text-[18px] text-text-primary tracking-[-0.36px]">{title}</p>
@@ -431,9 +431,9 @@ function StepCard({ step, title, description, illustration }: { step: string; ti
 function TestimonialCard({ quote, name, role }: { quote: string; name: string; role: string }) {
   return (
     <div className="bg-page rounded-[16px] p-[28px] flex flex-col gap-[20px]">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M10 8H6C4.89543 8 4 8.89543 4 10V14C4 15.1046 4.89543 16 6 16H8L6 20H8.5L10.5 16H10C11.1046 16 12 15.1046 12 14V10C12 8.89543 11.1046 8 10 8Z" fill="#d4d2de"/>
-        <path d="M20 8H16C14.8954 8 14 8.89543 14 10V14C14 15.1046 14.8954 16 16 16H18L16 20H18.5L20.5 16H20C21.1046 16 22 15.1046 22 14V10C22 8.89543 21.1046 8 20 8Z" fill="#d4d2de"/>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-inner-border">
+        <path d="M10 8H6C4.89543 8 4 8.89543 4 10V14C4 15.1046 4.89543 16 6 16H8L6 20H8.5L10.5 16H10C11.1046 16 12 15.1046 12 14V10C12 8.89543 11.1046 8 10 8Z" fill="currentColor"/>
+        <path d="M20 8H16C14.8954 8 14 8.89543 14 10V14C14 15.1046 14.8954 16 16 16H18L16 20H18.5L20.5 16H20C21.1046 16 22 15.1046 22 14V10C22 8.89543 21.1046 8 20 8Z" fill="currentColor"/>
       </svg>
       <p className="font-medium text-[15px] text-text-body tracking-[-0.3px] leading-[1.6] flex-1">{quote}</p>
       <div className="flex items-center gap-[10px]">
@@ -591,8 +591,8 @@ function AddProductIllustration() {
   return (
     <div className="relative w-[260px] h-[200px]">
       {/* Background decorative shapes */}
-      <div className="absolute top-[2px] left-[6px] w-[40px] h-[40px] rounded-[10px] bg-[#cde9d9] rotate-12 opacity-50" />
-      <div className="absolute bottom-[20px] right-[8px] w-[32px] h-[32px] rounded-full bg-[#ffd6d6] opacity-40" />
+      <div className="absolute top-[2px] left-[6px] w-[40px] h-[40px] rounded-[10px] bg-status-active-bg rotate-12 opacity-50" />
+      <div className="absolute bottom-[20px] right-[8px] w-[32px] h-[32px] rounded-full bg-status-expiring-bg opacity-40" />
 
       {/* Main form card */}
       <div className="absolute top-[12px] left-[20px] right-[20px] bg-panel rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
@@ -604,25 +604,25 @@ function AddProductIllustration() {
           <span className="font-medium text-[10px] text-text-body tracking-[-0.2px]">Add new product</span>
         </div>
         {/* Product name input */}
-        <div className="bg-[#f8f7fa] rounded-[6px] px-[10px] py-[7px]">
+        <div className="bg-inner rounded-[6px] px-[10px] py-[7px]">
           <span className="font-medium text-[8px] text-text-muted tracking-[-0.16px]">Product name</span>
-          <div className="mt-[3px] h-[3px] w-[70%] bg-[#d4d2de] rounded-full" />
+          <div className="mt-[3px] h-[3px] w-[70%] bg-inner-border rounded-full" />
         </div>
         {/* Two column inputs */}
         <div className="flex gap-[8px]">
-          <div className="flex-1 bg-[#f8f7fa] rounded-[6px] px-[10px] py-[7px]">
+          <div className="flex-1 bg-inner rounded-[6px] px-[10px] py-[7px]">
             <span className="font-medium text-[8px] text-text-muted tracking-[-0.16px]">Brand</span>
-            <div className="mt-[3px] h-[3px] w-[60%] bg-[#d4d2de] rounded-full" />
+            <div className="mt-[3px] h-[3px] w-[60%] bg-inner-border rounded-full" />
           </div>
-          <div className="flex-1 bg-[#f8f7fa] rounded-[6px] px-[10px] py-[7px]">
+          <div className="flex-1 bg-inner rounded-[6px] px-[10px] py-[7px]">
             <span className="font-medium text-[8px] text-text-muted tracking-[-0.16px]">Category</span>
-            <div className="mt-[3px] h-[3px] w-[50%] bg-[#d4d2de] rounded-full" />
+            <div className="mt-[3px] h-[3px] w-[50%] bg-inner-border rounded-full" />
           </div>
         </div>
         {/* Image upload area */}
-        <div className="border border-dashed border-[#d4d2de] rounded-[6px] px-[10px] py-[8px] flex items-center gap-[8px]">
-          <div className="w-[22px] h-[22px] rounded-[4px] bg-[#f0edf3] flex items-center justify-center shrink-0">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 7L3.5 4.5L5 6L7 3.5L9 7" stroke="#9F8EAB" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"/><circle cx="3" cy="3" r="1" stroke="#9F8EAB" strokeWidth="0.8"/></svg>
+        <div className="border border-dashed border-inner-border rounded-[6px] px-[10px] py-[8px] flex items-center gap-[8px]">
+          <div className="w-[22px] h-[22px] rounded-[4px] bg-inner flex items-center justify-center shrink-0 text-btn-primary">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 7L3.5 4.5L5 6L7 3.5L9 7" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"/><circle cx="3" cy="3" r="1" stroke="currentColor" strokeWidth="0.8"/></svg>
           </div>
           <span className="font-medium text-[8px] text-text-muted tracking-[-0.16px]">Upload receipt or image</span>
         </div>
@@ -636,7 +636,7 @@ function AddProductIllustration() {
 
       {/* Floating success toast */}
       <div className="absolute bottom-[4px] left-[28px] bg-panel rounded-[8px] shadow-[0_2px_12px_rgba(0,0,0,0.08)] px-[10px] py-[6px] flex items-center gap-[6px]">
-        <div className="w-[16px] h-[16px] rounded-full bg-[#cde9d9] flex items-center justify-center shrink-0">
+        <div className="w-[16px] h-[16px] rounded-full bg-status-active-bg flex items-center justify-center shrink-0">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#009f47" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
         <span className="font-medium text-[8px] text-text-body tracking-[-0.16px]">Product added!</span>
@@ -649,7 +649,7 @@ function ReminderIllustration() {
   return (
     <div className="relative w-[260px] h-[200px]">
       {/* Background decorative shapes */}
-      <div className="absolute top-[4px] right-[12px] w-[36px] h-[36px] rounded-[10px] bg-[#ffd6d6] -rotate-6 opacity-50" />
+      <div className="absolute top-[4px] right-[12px] w-[36px] h-[36px] rounded-[10px] bg-status-expiring-bg -rotate-6 opacity-50" />
       <div className="absolute bottom-[18px] left-[10px] w-[28px] h-[28px] rounded-full bg-sidebar-active/25" />
 
       {/* Main email card */}
@@ -663,24 +663,24 @@ function ReminderIllustration() {
             <span className="font-medium text-[9px] text-text-body tracking-[-0.18px]">Warranty Reminder</span>
             <span className="font-medium text-[7px] text-text-muted tracking-[-0.14px]">from Warrantify</span>
           </div>
-          <div className="ml-auto px-[5px] py-[1px] rounded-full bg-[#ffd6d6] shrink-0">
+          <div className="ml-auto px-[5px] py-[1px] rounded-full bg-status-expiring-bg shrink-0">
             <span className="font-medium text-[6px] text-status-expiring tracking-[-0.12px] leading-tight">7 days left</span>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="h-[1px] bg-[#f0ede8]" />
+        <div className="h-[1px] bg-inner-border" />
 
         {/* Email body */}
         <div className="flex flex-col gap-[5px]">
           <span className="font-medium text-[9px] text-text-body tracking-[-0.18px]">Your MacBook Pro warranty expires soon</span>
-          <div className="h-[3px] w-[90%] bg-[#f0ede8] rounded-full" />
-          <div className="h-[3px] w-[70%] bg-[#f4f4f4] rounded-full" />
+          <div className="h-[3px] w-[90%] bg-inner-border rounded-full" />
+          <div className="h-[3px] w-[70%] bg-page rounded-full" />
         </div>
 
         {/* Product preview card */}
-        <div className="flex items-center gap-[8px] bg-[#f8f7fa] rounded-[8px] p-[8px]">
-          <div className="w-[28px] h-[28px] rounded-[6px] bg-[#d4c5db] shrink-0" />
+        <div className="flex items-center gap-[8px] bg-inner rounded-[8px] p-[8px]">
+          <div className="w-[28px] h-[28px] rounded-[6px] bg-placeholder shrink-0" />
           <div className="flex flex-col gap-[1px] min-w-0">
             <span className="font-medium text-[7px] text-text-brand tracking-[-0.14px]">Apple</span>
             <span className="font-medium text-[9px] text-text-body tracking-[-0.18px]">MacBook Pro 16"</span>
@@ -702,7 +702,7 @@ function ReminderIllustration() {
           <path d="M7 2C5 2 3.5 3.5 3.5 5.5V8L2.5 9.5H11.5L10.5 8V5.5C10.5 3.5 9 2 7 2Z" stroke="white" strokeWidth="1" strokeLinejoin="round"/>
           <path d="M5.5 10.5C5.5 11.3 6.2 12 7 12C7.8 12 8.5 11.3 8.5 10.5" stroke="white" strokeWidth="1" strokeLinecap="round"/>
         </svg>
-        <div className="absolute -top-[3px] -right-[3px] w-[8px] h-[8px] rounded-full bg-status-expiring border-[1.5px] border-white" />
+        <div className="absolute -top-[3px] -right-[3px] w-[8px] h-[8px] rounded-full bg-status-expiring border-[1.5px] border-panel" />
       </div>
     </div>
   )
@@ -712,14 +712,14 @@ function ClaimIllustration() {
   return (
     <div className="relative w-[260px] h-[200px]">
       {/* Background decorative shapes */}
-      <div className="absolute top-[4px] right-[14px] w-[34px] h-[34px] rounded-[10px] bg-[#cde9d9] rotate-6 opacity-50" />
-      <div className="absolute bottom-[20px] left-[12px] w-[26px] h-[26px] rounded-full bg-[#ffd6d6] opacity-40" />
+      <div className="absolute top-[4px] right-[14px] w-[34px] h-[34px] rounded-[10px] bg-status-active-bg rotate-6 opacity-50" />
+      <div className="absolute bottom-[20px] left-[12px] w-[26px] h-[26px] rounded-full bg-status-expiring-bg opacity-40" />
 
       {/* Main warranty document card */}
       <div className="absolute top-[12px] left-[18px] right-[18px] bg-panel rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
         {/* Header with shield */}
         <div className="flex items-center gap-[8px]">
-          <div className="w-[20px] h-[20px] rounded-[4px] bg-[#cde9d9] flex items-center justify-center shrink-0">
+          <div className="w-[20px] h-[20px] rounded-[4px] bg-status-active-bg flex items-center justify-center shrink-0">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
               <path d="M5 1L2 2.5V5C2 7.2 3.3 9 5 9.5C6.7 9 8 7.2 8 5V2.5L5 1Z" stroke="#009f47" strokeWidth="0.8" strokeLinejoin="round"/>
               <path d="M3.5 5L4.5 6L6.5 4" stroke="#009f47" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -732,8 +732,8 @@ function ClaimIllustration() {
         </div>
 
         {/* Product info */}
-        <div className="flex items-center gap-[8px] bg-[#f8f7fa] rounded-[8px] p-[8px]">
-          <div className="w-[28px] h-[28px] rounded-[6px] bg-[#c5d4db] shrink-0" />
+        <div className="flex items-center gap-[8px] bg-inner rounded-[8px] p-[8px]">
+          <div className="w-[28px] h-[28px] rounded-[6px] bg-placeholder shrink-0" />
           <div className="flex flex-col gap-[1px] min-w-0">
             <span className="font-medium text-[7px] text-text-brand tracking-[-0.14px]">Samsung</span>
             <span className="font-medium text-[9px] text-text-body tracking-[-0.18px]">Washing Machine</span>
@@ -746,12 +746,12 @@ function ClaimIllustration() {
             <span className="font-medium text-[7px] text-text-muted tracking-[-0.14px]">Serial Number</span>
             <span className="font-medium text-[7px] text-text-body tracking-[-0.14px]">WM-2024-X892</span>
           </div>
-          <div className="h-[0.5px] bg-[#f0ede8]" />
+          <div className="h-[0.5px] bg-inner-border" />
           <div className="flex justify-between">
             <span className="font-medium text-[7px] text-text-muted tracking-[-0.14px]">Purchase Date</span>
             <span className="font-medium text-[7px] text-text-body tracking-[-0.14px]">Jan 15, 2025</span>
           </div>
-          <div className="h-[0.5px] bg-[#f0ede8]" />
+          <div className="h-[0.5px] bg-inner-border" />
           <div className="flex justify-between">
             <span className="font-medium text-[7px] text-text-muted tracking-[-0.14px]">Expires</span>
             <span className="font-medium text-[7px] text-status-active tracking-[-0.14px]">Jan 15, 2027</span>
@@ -760,19 +760,19 @@ function ClaimIllustration() {
 
         {/* Attached documents */}
         <div className="flex gap-[6px]">
-          <div className="flex items-center gap-[4px] bg-[#f0edf3] rounded-[4px] px-[6px] py-[4px]">
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><rect x="1" y="0.5" width="6" height="7" rx="1" stroke="#7d7086" strokeWidth="0.6"/><path d="M2.5 2.5H5.5M2.5 3.8H4.5M2.5 5H5.5" stroke="#7d7086" strokeWidth="0.4" strokeLinecap="round"/></svg>
-            <span className="font-medium text-[7px] text-[#7d7086] tracking-[-0.14px]">Receipt.pdf</span>
+          <div className="flex items-center gap-[4px] bg-inner rounded-[4px] px-[6px] py-[4px]">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><rect x="1" y="0.5" width="6" height="7" rx="1" stroke="currentColor" strokeWidth="0.6"/><path d="M2.5 2.5H5.5M2.5 3.8H4.5M2.5 5H5.5" stroke="currentColor" strokeWidth="0.4" strokeLinecap="round"/></svg>
+            <span className="font-medium text-[7px] text-btn-primary tracking-[-0.14px]">Receipt.pdf</span>
           </div>
-          <div className="flex items-center gap-[4px] bg-[#f0edf3] rounded-[4px] px-[6px] py-[4px]">
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><rect x="0.5" y="0.5" width="7" height="7" rx="1" stroke="#7d7086" strokeWidth="0.6"/><path d="M0.5 5.5L2.5 3.5L4 4.5L5.5 3L7.5 5.5" stroke="#7d7086" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            <span className="font-medium text-[7px] text-[#7d7086] tracking-[-0.14px]">Photo.jpg</span>
+          <div className="flex items-center gap-[4px] bg-inner rounded-[4px] px-[6px] py-[4px]">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><rect x="0.5" y="0.5" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="0.6"/><path d="M0.5 5.5L2.5 3.5L4 4.5L5.5 3L7.5 5.5" stroke="currentColor" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span className="font-medium text-[7px] text-btn-primary tracking-[-0.14px]">Photo.jpg</span>
           </div>
         </div>
       </div>
 
       {/* Floating shield badge */}
-      <div className="absolute bottom-[8px] right-[12px] w-[32px] h-[32px] rounded-[8px] bg-[#cde9d9] shadow-[0_2px_10px_rgba(0,159,71,0.2)] flex items-center justify-center">
+      <div className="absolute bottom-[8px] right-[12px] w-[32px] h-[32px] rounded-[8px] bg-status-active-bg shadow-[0_2px_10px_rgba(0,159,71,0.2)] flex items-center justify-center">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M8 2L3 4.5V8C3 11.3 5.15 14.2 8 15C10.85 14.2 13 11.3 13 8V4.5L8 2Z" stroke="#009f47" strokeWidth="1" strokeLinejoin="round"/>
           <path d="M5.5 8L7 9.5L10.5 6" stroke="#009f47" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
