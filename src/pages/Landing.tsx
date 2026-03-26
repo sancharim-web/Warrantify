@@ -12,17 +12,13 @@ export function Landing() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-page/80 backdrop-blur-[12px]">
         <div className="max-w-[1200px] mx-auto px-[40px] py-[20px] flex items-center justify-between">
           <div className="flex items-center gap-[8px]">
-            <div className="w-[28px] h-[28px] rounded-[6px] bg-btn-primary flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                <path d="M9 2L11.5 6.5L16 7.5L12.5 11L13.5 16L9 13.5L4.5 16L5.5 11L2 7.5L6.5 6.5L9 2Z" stroke="white" strokeWidth="1.2" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <p className="font-brand font-medium text-[18px] text-black tracking-[-0.36px]">Warrantify</p>
+            <img src="/warrantifylogo.png" alt="Warrantify" className="w-[28px] h-[28px] rounded-[6px]" />
+            <p className="font-brand font-medium text-[18px] text-text-primary tracking-[-0.36px]">Warrantify</p>
           </div>
           <div className="flex items-center gap-[16px]">
-            <a href="#features" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-black transition-colors">Features</a>
-            <a href="#how-it-works" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-black transition-colors">How it works</a>
-            <a href="#pricing" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-black transition-colors">Pricing</a>
+            <a href="#features" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-text-primary transition-colors">Features</a>
+            <a href="#how-it-works" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-text-primary transition-colors">How it works</a>
+            <a href="#pricing" className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] hover:text-text-primary transition-colors">Pricing</a>
             <button
               onClick={() => setSignUpOpen(true)}
               className="px-[20px] py-[10px] rounded-[10px] border border-btn-primary text-btn-primary text-[14px] font-medium tracking-[-0.28px] hover:bg-btn-primary/5 transition-colors"
@@ -42,12 +38,7 @@ export function Landing() {
       {/* Hero Section */}
       <section className="pt-[140px] pb-[80px] px-[40px]">
         <div className="max-w-[1200px] mx-auto flex flex-col items-center text-center gap-[32px]">
-          <div className="flex items-center gap-[8px] bg-white rounded-full px-[16px] py-[6px] shadow-[0px_1px_4px_rgba(0,0,0,0.06)]">
-            <div className="w-[6px] h-[6px] rounded-full bg-status-active" />
-            <p className="font-medium text-[13px] text-text-secondary tracking-[-0.26px]">Trusted by 10,000+ users worldwide</p>
-          </div>
-
-          <h1 className="font-brand font-medium text-[56px] text-black tracking-[-1.68px] leading-[1.1] max-w-[700px]">
+          <h1 className="font-brand font-medium text-[56px] text-text-primary tracking-[-1.68px] leading-[1.1] max-w-[700px]">
             Never lose track of a warranty again
           </h1>
 
@@ -62,7 +53,7 @@ export function Landing() {
             >
               Get started free
             </button>
-            <a href="#how-it-works" className="px-[28px] py-[14px] rounded-[12px] text-text-secondary text-[16px] font-medium tracking-[-0.32px] hover:bg-white transition-colors">
+            <a href="#how-it-works" className="px-[28px] py-[14px] rounded-[12px] text-text-secondary text-[16px] font-medium tracking-[-0.32px] hover:bg-panel transition-colors">
               See how it works
             </a>
           </div>
@@ -74,7 +65,7 @@ export function Landing() {
             <div className="absolute -top-[10px] -right-[20px] w-[44px] h-[44px] rounded-full bg-[#ffd6d6] opacity-50" />
             <div className="absolute -bottom-[16px] left-[80px] w-[36px] h-[36px] rounded-[10px] bg-sidebar-active/30 -rotate-6" />
 
-            <div className="bg-white rounded-[20px] shadow-[0px_12px_60px_rgba(125,112,134,0.15)] p-[3px] relative overflow-hidden">
+            <div className="bg-panel rounded-[20px] shadow-[0px_12px_60px_rgba(125,112,134,0.15)] p-[3px] relative overflow-hidden">
               {/* Top bar */}
               <div className="bg-[#faf9fb] rounded-t-[17px] px-[20px] py-[10px] flex items-center gap-[8px] border-b border-[#eee]">
                 <div className="flex gap-[6px]">
@@ -91,7 +82,7 @@ export function Landing() {
               {/* App content */}
               <div className="flex">
                 {/* Mini sidebar */}
-                <div className="w-[160px] shrink-0 bg-white px-[16px] py-[20px] flex flex-col gap-[16px] border-r border-[#f0ede8]">
+                <div className="w-[160px] shrink-0 bg-panel px-[16px] py-[20px] flex flex-col gap-[16px] border-r border-inner-border">
                   <div className="flex items-center gap-[8px]">
                     <div className="w-[22px] h-[22px] rounded-full bg-btn-primary flex items-center justify-center">
                       <span className="text-[9px] font-medium text-white">S</span>
@@ -116,16 +107,16 @@ export function Landing() {
                 {/* Main area */}
                 <div className="flex-1 bg-page p-[24px] flex flex-col gap-[16px] min-h-[280px]">
                   {/* Greeting */}
-                  <p className="font-brand font-medium text-[16px] text-black tracking-[-0.32px] text-center">Hello Sanchari!</p>
+                  <p className="font-brand font-medium text-[16px] text-text-primary tracking-[-0.32px] text-center">Hello Sanchari!</p>
                   {/* Search bar */}
-                  <div className="bg-white rounded-[8px] px-[12px] py-[8px] flex items-center justify-between">
+                  <div className="bg-panel rounded-[8px] px-[12px] py-[8px] flex items-center justify-between">
                     <span className="font-medium text-[11px] text-text-muted tracking-[-0.22px]">Add a new product...</span>
                     <div className="w-[20px] h-[20px] rounded-full bg-btn-primary flex items-center justify-center">
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2V8M2 5H8" stroke="white" strokeWidth="1.2" strokeLinecap="round"/></svg>
                     </div>
                   </div>
                   {/* Dashboard label + cards */}
-                  <span className="font-medium text-[13px] text-black tracking-[-0.26px] text-left">Dashboard</span>
+                  <span className="font-medium text-[13px] text-text-primary tracking-[-0.26px] text-left">Dashboard</span>
                   <div className="flex gap-[8px]">
                     {[
                       { name: 'MacBook Pro 16"', brand: 'Apple', days: '30', status: 'Today', statusBg: 'bg-status-expiring-bg', statusText: 'text-status-expiring', img: '#d4c5db' },
@@ -133,7 +124,7 @@ export function Landing() {
                       { name: 'OLED TV 55"', brand: 'LG', days: '540', status: 'Active', statusBg: 'bg-status-active-bg', statusText: 'text-status-active', img: '#dbd4c5' },
                       { name: 'Aeron Chair', brand: 'Herman Miller', days: '4,200', status: 'Active', statusBg: 'bg-status-active-bg', statusText: 'text-status-active', img: '#c5dbc8' },
                     ].map((card) => (
-                      <div key={card.name} className="flex-1 bg-white rounded-[8px] p-[6px] flex flex-col gap-[6px] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                      <div key={card.name} className="flex-1 bg-card-bg rounded-[8px] p-[6px] flex flex-col gap-[6px] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
                         <div className="h-[46px] rounded-[5px]" style={{ backgroundColor: card.img }} />
                         <div className="flex flex-col gap-[6px] px-[3px] pb-[2px] text-left">
                           <div className="flex flex-col gap-[1px]">
@@ -153,7 +144,7 @@ export function Landing() {
             </div>
 
             {/* Floating notification badge */}
-            <div className="absolute -right-[16px] top-[80px] bg-white rounded-[12px] shadow-[0_4px_20px_rgba(0,0,0,0.1)] px-[14px] py-[10px] flex items-center gap-[8px] animate-bounce" style={{ animationDuration: '3s' }}>
+            <div className="absolute -right-[16px] top-[80px] bg-panel rounded-[12px] shadow-[0_4px_20px_rgba(0,0,0,0.1)] px-[14px] py-[10px] flex items-center gap-[8px] animate-bounce" style={{ animationDuration: '3s' }}>
               <div className="w-[28px] h-[28px] rounded-[6px] bg-[#cde9d9] flex items-center justify-center">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7L5.5 9.5L11 4" stroke="#009f47" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
@@ -167,7 +158,7 @@ export function Landing() {
       </section>
 
       {/* Logos / Social proof */}
-      <section className="py-[48px] px-[40px] border-t border-b border-[#e8e6ec]">
+      <section className="py-[48px] px-[40px] border-t border-b border-inner-border">
         <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-[24px]">
           <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px] uppercase">Manage warranties for products from</p>
           <div className="flex items-center gap-[48px] flex-wrap justify-center">
@@ -183,7 +174,7 @@ export function Landing() {
         <div className="max-w-[1200px] mx-auto flex flex-col gap-[64px]">
           <div className="flex flex-col items-center text-center gap-[16px]">
             <p className="font-medium text-[13px] text-btn-primary tracking-[-0.26px] uppercase">Features</p>
-            <h2 className="font-brand font-medium text-[40px] text-black tracking-[-1.2px] leading-[1.15]">
+            <h2 className="font-brand font-medium text-[40px] text-text-primary tracking-[-1.2px] leading-[1.15]">
               Everything you need to stay<br/>on top of your warranties
             </h2>
             <p className="font-medium text-[16px] text-text-secondary tracking-[-0.32px] max-w-[480px]">
@@ -227,11 +218,11 @@ export function Landing() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="py-[100px] px-[40px] bg-white">
+      <section id="how-it-works" className="py-[100px] px-[40px] bg-panel">
         <div className="max-w-[1200px] mx-auto flex flex-col gap-[64px]">
           <div className="flex flex-col items-center text-center gap-[16px]">
             <p className="font-medium text-[13px] text-btn-primary tracking-[-0.26px] uppercase">How it works</p>
-            <h2 className="font-brand font-medium text-[40px] text-black tracking-[-1.2px] leading-[1.15]">
+            <h2 className="font-brand font-medium text-[40px] text-text-primary tracking-[-1.2px] leading-[1.15]">
               Three steps to warranty peace of mind
             </h2>
           </div>
@@ -279,11 +270,11 @@ export function Landing() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-[100px] px-[40px] bg-white">
+      <section className="py-[100px] px-[40px] bg-panel">
         <div className="max-w-[1200px] mx-auto flex flex-col gap-[64px]">
           <div className="flex flex-col items-center text-center gap-[16px]">
             <p className="font-medium text-[13px] text-btn-primary tracking-[-0.26px] uppercase">Testimonials</p>
-            <h2 className="font-brand font-medium text-[40px] text-black tracking-[-1.2px] leading-[1.15]">
+            <h2 className="font-brand font-medium text-[40px] text-text-primary tracking-[-1.2px] leading-[1.15]">
               Loved by thousands of users
             </h2>
           </div>
@@ -313,7 +304,7 @@ export function Landing() {
         <div className="max-w-[1200px] mx-auto flex flex-col gap-[64px]">
           <div className="flex flex-col items-center text-center gap-[16px]">
             <p className="font-medium text-[13px] text-btn-primary tracking-[-0.26px] uppercase">Pricing</p>
-            <h2 className="font-brand font-medium text-[40px] text-black tracking-[-1.2px] leading-[1.15]">
+            <h2 className="font-brand font-medium text-[40px] text-text-primary tracking-[-1.2px] leading-[1.15]">
               Simple, transparent pricing
             </h2>
             <p className="font-medium text-[16px] text-text-secondary tracking-[-0.32px]">
@@ -352,9 +343,9 @@ export function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="py-[100px] px-[40px] bg-white">
+      <section className="py-[100px] px-[40px] bg-panel">
         <div className="max-w-[700px] mx-auto flex flex-col items-center text-center gap-[24px]">
-          <h2 className="font-brand font-medium text-[40px] text-black tracking-[-1.2px] leading-[1.15]">
+          <h2 className="font-brand font-medium text-[40px] text-text-primary tracking-[-1.2px] leading-[1.15]">
             Start protecting your purchases today
           </h2>
           <p className="font-medium text-[16px] text-text-secondary tracking-[-0.32px] max-w-[440px]">
@@ -370,16 +361,12 @@ export function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="py-[48px] px-[40px] border-t border-[#e8e6ec]">
+      <footer className="py-[48px] px-[40px] border-t border-inner-border">
         <div className="max-w-[1200px] mx-auto flex items-start justify-between">
           <div className="flex flex-col gap-[12px]">
             <div className="flex items-center gap-[8px]">
-              <div className="w-[24px] h-[24px] rounded-[6px] bg-btn-primary flex items-center justify-center">
-                <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                  <path d="M9 2L11.5 6.5L16 7.5L12.5 11L13.5 16L9 13.5L4.5 16L5.5 11L2 7.5L6.5 6.5L9 2Z" stroke="white" strokeWidth="1.2" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <p className="font-brand font-medium text-[16px] text-black tracking-[-0.32px]">Warrantify</p>
+              <img src="/warrantifylogo.png" alt="Warrantify" className="w-[24px] h-[24px] rounded-[6px]" />
+              <p className="font-brand font-medium text-[16px] text-text-primary tracking-[-0.32px]">Warrantify</p>
             </div>
             <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px] max-w-[280px]">
               The smartest way to track and manage your product warranties.
@@ -392,7 +379,7 @@ export function Landing() {
             <FooterColumn title="Legal" links={['Privacy', 'Terms', 'Security']} />
           </div>
         </div>
-        <div className="max-w-[1200px] mx-auto mt-[40px] pt-[24px] border-t border-[#e8e6ec] flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto mt-[40px] pt-[24px] border-t border-inner-border flex items-center justify-between">
           <p className="font-medium text-[12px] text-text-muted tracking-[-0.24px]">2026 Warrantify. All rights reserved.</p>
           <div className="flex gap-[16px]">
             <SocialIcon type="twitter" />
@@ -412,11 +399,11 @@ export function Landing() {
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
-    <div className="bg-white rounded-[16px] p-[28px] flex flex-col gap-[16px] hover:shadow-[0px_4px_20px_rgba(0,0,0,0.06)] transition-shadow">
+    <div className="bg-panel rounded-[16px] p-[28px] flex flex-col gap-[16px] hover:shadow-[0px_4px_20px_rgba(0,0,0,0.06)] transition-shadow">
       <div className="w-[44px] h-[44px] rounded-[10px] bg-[#f0edf3] flex items-center justify-center text-btn-primary">
         {icon}
       </div>
-      <p className="font-medium text-[18px] text-black tracking-[-0.36px]">{title}</p>
+      <p className="font-medium text-[18px] text-text-primary tracking-[-0.36px]">{title}</p>
       <p className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] leading-[1.6]">{description}</p>
     </div>
   )
@@ -432,7 +419,7 @@ function StepCard({ step, title, description, illustration }: { step: string; ti
       </div>
       <div className="flex flex-col gap-[8px]">
         <p className="font-medium text-[13px] text-btn-primary tracking-[-0.26px]">Step {step}</p>
-        <p className="font-medium text-[18px] text-black tracking-[-0.36px]">{title}</p>
+        <p className="font-medium text-[18px] text-text-primary tracking-[-0.36px]">{title}</p>
         <p className="font-medium text-[14px] text-text-secondary tracking-[-0.28px] leading-[1.6]">{description}</p>
       </div>
     </div>
@@ -454,7 +441,7 @@ function TestimonialCard({ quote, name, role }: { quote: string; name: string; r
           <span className="text-[12px] font-medium text-white">{name[0]}</span>
         </div>
         <div>
-          <p className="font-medium text-[14px] text-black tracking-[-0.28px]">{name}</p>
+          <p className="font-medium text-[14px] text-text-primary tracking-[-0.28px]">{name}</p>
           <p className="font-medium text-[12px] text-text-muted tracking-[-0.24px]">{role}</p>
         </div>
       </div>
@@ -471,7 +458,7 @@ function PricingCard({ plan, price, period, description, features, highlighted, 
     <div className={`w-[340px] rounded-[16px] p-[32px] flex flex-col gap-[24px] ${
       highlighted
         ? 'bg-btn-primary text-white ring-4 ring-btn-primary/20'
-        : 'bg-white'
+        : 'bg-panel'
     }`}>
       <div className="flex flex-col gap-[8px]">
         <div className="flex items-center gap-[8px]">
@@ -481,7 +468,7 @@ function PricingCard({ plan, price, period, description, features, highlighted, 
           )}
         </div>
         <div className="flex items-baseline gap-[4px]">
-          <p className={`font-brand font-medium text-[40px] tracking-[-1.2px] ${highlighted ? 'text-white' : 'text-black'}`}>{price}</p>
+          <p className={`font-brand font-medium text-[40px] tracking-[-1.2px] ${highlighted ? 'text-white' : 'text-text-primary'}`}>{price}</p>
           <p className={`font-medium text-[14px] tracking-[-0.28px] ${highlighted ? 'text-white/60' : 'text-text-muted'}`}>{period}</p>
         </div>
         <p className={`font-medium text-[14px] tracking-[-0.28px] ${highlighted ? 'text-white/70' : 'text-text-secondary'}`}>{description}</p>
@@ -517,7 +504,7 @@ function PricingCard({ plan, price, period, description, features, highlighted, 
 function FooterColumn({ title, links }: { title: string; links: string[] }) {
   return (
     <div className="flex flex-col gap-[12px]">
-      <p className="font-medium text-[13px] text-black tracking-[-0.26px]">{title}</p>
+      <p className="font-medium text-[13px] text-text-primary tracking-[-0.26px]">{title}</p>
       {links.map((link) => (
         <button key={link} className="text-left font-medium text-[13px] text-text-muted tracking-[-0.26px] hover:text-text-secondary transition-colors">
           {link}
@@ -608,7 +595,7 @@ function AddProductIllustration() {
       <div className="absolute bottom-[20px] right-[8px] w-[32px] h-[32px] rounded-full bg-[#ffd6d6] opacity-40" />
 
       {/* Main form card */}
-      <div className="absolute top-[12px] left-[20px] right-[20px] bg-white rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
+      <div className="absolute top-[12px] left-[20px] right-[20px] bg-panel rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
         {/* Title */}
         <div className="flex items-center gap-[6px]">
           <div className="w-[16px] h-[16px] rounded-[4px] bg-btn-primary flex items-center justify-center">
@@ -648,7 +635,7 @@ function AddProductIllustration() {
       </div>
 
       {/* Floating success toast */}
-      <div className="absolute bottom-[4px] left-[28px] bg-white rounded-[8px] shadow-[0_2px_12px_rgba(0,0,0,0.08)] px-[10px] py-[6px] flex items-center gap-[6px]">
+      <div className="absolute bottom-[4px] left-[28px] bg-panel rounded-[8px] shadow-[0_2px_12px_rgba(0,0,0,0.08)] px-[10px] py-[6px] flex items-center gap-[6px]">
         <div className="w-[16px] h-[16px] rounded-full bg-[#cde9d9] flex items-center justify-center shrink-0">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#009f47" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
@@ -666,7 +653,7 @@ function ReminderIllustration() {
       <div className="absolute bottom-[18px] left-[10px] w-[28px] h-[28px] rounded-full bg-sidebar-active/25" />
 
       {/* Main email card */}
-      <div className="absolute top-[16px] left-[16px] right-[16px] bg-white rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
+      <div className="absolute top-[16px] left-[16px] right-[16px] bg-panel rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
         {/* Email header */}
         <div className="flex items-center gap-[8px]">
           <div className="w-[20px] h-[20px] rounded-full bg-btn-primary flex items-center justify-center shrink-0">
@@ -729,7 +716,7 @@ function ClaimIllustration() {
       <div className="absolute bottom-[20px] left-[12px] w-[26px] h-[26px] rounded-full bg-[#ffd6d6] opacity-40" />
 
       {/* Main warranty document card */}
-      <div className="absolute top-[12px] left-[18px] right-[18px] bg-white rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
+      <div className="absolute top-[12px] left-[18px] right-[18px] bg-panel rounded-[12px] shadow-[0_4px_24px_rgba(125,112,134,0.12)] p-[16px] flex flex-col gap-[10px]">
         {/* Header with shield */}
         <div className="flex items-center gap-[8px]">
           <div className="w-[20px] h-[20px] rounded-[4px] bg-[#cde9d9] flex items-center justify-center shrink-0">

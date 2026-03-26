@@ -53,20 +53,16 @@ export function SignInModal({ open, onOpenChange }: SignInModalProps) {
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="relative bg-white rounded-[20px] w-[440px] p-[32px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)]">
+      <div className="relative bg-panel rounded-[20px] w-[440px] p-[32px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-[28px]">
           {/* Header */}
           <div className="flex flex-col gap-[8px] items-center">
             <div className="flex items-center gap-[8px] mb-[4px]">
-              <div className="w-[32px] h-[32px] rounded-[8px] bg-btn-primary flex items-center justify-center">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M9 2L11.5 6.5L16 7.5L12.5 11L13.5 16L9 13.5L4.5 16L5.5 11L2 7.5L6.5 6.5L9 2Z" stroke="white" strokeWidth="1.2" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <p className="font-brand font-medium text-[22px] text-black tracking-[-0.44px]">Warrantify</p>
+              <img src="/warrantifylogo.png" alt="Warrantify" className="w-[32px] h-[32px] rounded-[8px]" />
+              <p className="font-brand font-medium text-[22px] text-text-primary tracking-[-0.44px]">Warrantify</p>
             </div>
-            <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Welcome back</p>
-            <p className="font-medium text-[14px] text-text-muted tracking-[-0.28px]">Sign in to manage your warranties</p>
+            <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Welcome back</p>
+            <p className="font-medium text-[14px] text-text-muted tracking-[-0.28px]">Login to manage your warranties</p>
           </div>
 
           {/* Fields */}
@@ -136,12 +132,12 @@ export function SignInModal({ open, onOpenChange }: SignInModalProps) {
                   Signing in...
                 </span>
               ) : (
-                'Sign in'
+                'Login'
               )}
             </button>
             <p className="text-center font-medium text-[13px] text-text-muted tracking-[-0.26px]">
               Don't have an account?{' '}
-              <button type="button" className="text-btn-primary hover:opacity-80">Sign up</button>
+              <button type="button" className="text-btn-primary hover:opacity-80">Register</button>
             </p>
           </div>
         </form>

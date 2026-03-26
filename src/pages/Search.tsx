@@ -49,7 +49,7 @@ export function Search() {
     <div className="flex flex-col gap-[24px]">
       {/* Header */}
       <div className="flex-1 py-[10px]">
-        <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Search</p>
+        <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Search</p>
       </div>
 
       {/* Search input */}
@@ -128,9 +128,9 @@ export function Search() {
 
 function ResultSection({ title, items }: { title: string; items: WarrantyWithStatus[] }) {
   return (
-    <div className="bg-inner rounded-[22px] py-[24px] flex flex-col gap-[16px]">
-      <p className="font-medium text-[20px] text-black tracking-[-0.4px]">{title}</p>
-      <div className="flex flex-col">
+    <div className="flex flex-col gap-[12px]">
+      <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">{title}</p>
+      <div className="bg-panel rounded-[16px] flex flex-col divide-y divide-inner-border">
         {items.map((w) => (
           <SearchResultRow key={w.id} warranty={w} />
         ))}
@@ -141,16 +141,17 @@ function ResultSection({ title, items }: { title: string; items: WarrantyWithSta
 
 function SearchResultRow({ warranty }: { warranty: WarrantyWithStatus }) {
   const expiryLabel = warranty.status === 'expired' ? 'Expired on' : 'Expiring on'
-  const badgeLabel = warranty.days_remaining === 0 ? 'Today'
-    : warranty.status === 'active' ? 'Active'
-    : warranty.status === 'expired' ? 'Inactive' : 'Today'
+  const badgeLabel = warranty.status === 'active' ? 'Active'
+    : warranty.status === 'expiring_soon'
+      ? (warranty.days_remaining === 0 ? 'Today' : 'Expiring soon')
+    : 'Expired'
 
   return (
     <Link
       to={`/myproducts/${warranty.id}`}
-      className="flex items-center gap-[20px] px-[20px] py-[16px] rounded-[12px] hover:bg-panel transition-colors"
+      className="flex items-center px-[24px] py-[18px] hover:bg-inner transition-colors first:rounded-t-[16px] last:rounded-b-[16px]"
     >
-      {/* Product info */}
+      {/* Product info — left */}
       <div className="flex-1 min-w-0 flex flex-col gap-[2px]">
         <p className="font-medium text-[12px] text-text-brand tracking-[-0.24px] truncate">
           {warranty.brand || warranty.category}
@@ -160,25 +161,23 @@ function SearchResultRow({ warranty }: { warranty: WarrantyWithStatus }) {
         </p>
       </div>
 
-      {/* Category */}
-      <div className="w-[120px] shrink-0">
-        <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px] truncate">
+      {/* Right side — category, expiry, badge */}
+      <div className="flex items-center gap-[32px] shrink-0">
+        <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px] w-[100px] text-right">
           {warranty.category}
         </p>
-      </div>
 
-      {/* Expiry */}
-      <div className="w-[140px] shrink-0 flex flex-col gap-[2px]">
-        <p className="font-medium text-[12px] text-text-brand tracking-[-0.24px]">{expiryLabel}</p>
-        <p className={`font-medium text-[13px] tracking-[-0.26px] ${getExpiryTextColor(warranty.status)}`}>
-          {format(new Date(warranty.expiry_date), "MMM dd'' yyyy")}
-        </p>
-      </div>
+        <div className="flex flex-col gap-[2px] w-[120px] text-right">
+          <p className="font-medium text-[12px] text-text-brand tracking-[-0.24px]">{expiryLabel}</p>
+          <p className={`font-medium text-[14px] tracking-[-0.28px] ${getExpiryTextColor(warranty.status)}`}>
+            {format(new Date(warranty.expiry_date), "MMM dd'' yyyy")}
+          </p>
+        </div>
 
-      {/* Status badge */}
-      <span className={`px-[6px] py-[2px] rounded-[12px] text-[12px] font-medium tracking-[-0.24px] whitespace-nowrap ${getStatusBadgeClasses(warranty.status)}`}>
-        {badgeLabel}
-      </span>
+        <span className={`px-[8px] py-[3px] rounded-[12px] text-[12px] font-medium tracking-[-0.24px] whitespace-nowrap w-[100px] text-center ${getStatusBadgeClasses(warranty.status)}`}>
+          {badgeLabel}
+        </span>
+      </div>
     </Link>
   )
 }

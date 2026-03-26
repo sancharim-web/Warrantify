@@ -13,12 +13,12 @@ function getStatusBadge(status: string, daysRemaining: number) {
       return { label: 'Active', bg: 'bg-status-active-bg', text: 'text-status-active' }
     case 'expiring_soon':
       return {
-        label: daysRemaining === 0 ? 'Today' : 'Today',
+        label: daysRemaining === 0 ? 'Today' : 'Expiring soon',
         bg: 'bg-status-expiring-bg',
         text: 'text-status-expiring',
       }
     case 'expired':
-      return { label: 'Inactive', bg: 'bg-status-expired-bg', text: 'text-status-expired' }
+      return { label: 'Expired', bg: 'bg-status-expired-bg', text: 'text-status-expired' }
     default:
       return { label: 'Active', bg: 'bg-status-active-bg', text: 'text-status-active' }
   }

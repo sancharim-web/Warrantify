@@ -75,12 +75,12 @@ export function AddProductModal({ open, onOpenChange, onSubmit, initialProductNa
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-[20px] w-[731px] max-h-[90vh] overflow-y-auto p-[24px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)]">
+      <div className="relative bg-panel rounded-[20px] w-[731px] max-h-[90vh] overflow-y-auto p-[24px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-[24px]">
           <div className="flex flex-col gap-[32px]">
             {/* Header */}
             <div className="flex flex-col gap-[16px]">
-              <p className="font-medium text-[24px] text-black tracking-[-0.48px]">New Product</p>
+              <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">New Product</p>
 
               {/* Method selection */}
               <div className="flex flex-col gap-[8px]">

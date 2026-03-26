@@ -103,6 +103,7 @@ export async function createWarranty(input: CreateWarrantyInput): Promise<Warran
         notes: input.notes || null,
         image_url: input.image_url || null,
         gallery_urls: input.gallery_urls || [],
+        reminder_config: input.reminder_config || { enabled: ['30_day', '7_day', 'expiry'], custom: [] },
       })
       .select('*, documents(*)')
       .single()
@@ -125,6 +126,7 @@ export async function createWarranty(input: CreateWarrantyInput): Promise<Warran
     notes: input.notes ?? null,
     image_url: input.image_url ?? null,
     gallery_urls: input.gallery_urls ?? [],
+    reminder_config: input.reminder_config ?? { enabled: ['30_day', '7_day', 'expiry'], custom: [] },
     created_at: now,
     updated_at: now,
     trashed_at: null,
@@ -149,6 +151,7 @@ export async function updateWarranty(id: string, input: Partial<CreateWarrantyIn
     if (input.notes !== undefined) updateFields.notes = input.notes || null
     if (input.image_url !== undefined) updateFields.image_url = input.image_url || null
     if (input.gallery_urls !== undefined) updateFields.gallery_urls = input.gallery_urls || []
+    if (input.reminder_config !== undefined) updateFields.reminder_config = input.reminder_config
 
     const { data, error } = await supabase!
       .from('warranties')
@@ -172,6 +175,7 @@ export async function updateWarranty(id: string, input: Partial<CreateWarrantyIn
     brand_contact: input.brand_contact ?? existing.brand_contact,
     notes: input.notes ?? existing.notes,
     gallery_urls: input.gallery_urls ?? existing.gallery_urls,
+    reminder_config: input.reminder_config ?? existing.reminder_config,
     expiry_date: input.purchase_date || input.warranty_months
       ? format(
           addMonths(

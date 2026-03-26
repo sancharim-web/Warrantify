@@ -83,7 +83,7 @@ export function Dashboard() {
     <div className="flex flex-col gap-[40px]">
       {/* Hero — greeting + search bar */}
       <div className="flex flex-col gap-[32px] items-center">
-        <p className="font-brand font-medium text-[32px] text-black text-center tracking-[-0.64px] w-full">
+        <p className="font-brand font-medium text-[32px] text-text-primary text-center tracking-[-0.64px] w-full">
           Hello {user?.name || 'there'}!
         </p>
         <form
@@ -121,7 +121,7 @@ export function Dashboard() {
           {/* Dashboard header */}
           <div className="flex items-center justify-between">
             <div className="flex-1 py-[10px]">
-              <p className="font-medium text-[24px] text-black tracking-[-0.48px]">
+              <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">
                 Dashboard
               </p>
             </div>
@@ -217,8 +217,8 @@ function FilterTab({
 
 function WarrantySection({ title, items }: { title: string; items: WarrantyWithStatus[] }) {
   return (
-    <div className="bg-inner rounded-[22px] py-[24px] flex flex-col gap-[24px]">
-      <p className="font-medium text-[20px] text-black tracking-[-0.4px]">{title}</p>
+    <div className="flex flex-col gap-[24px]">
+      <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">{title}</p>
       {items.length === 0 ? (
         <p className="text-text-muted text-[15px] font-medium tracking-[-0.3px] py-8 text-center">
           No warranties in this section
@@ -244,7 +244,7 @@ function EmptyDashboard({ onNewProduct }: { onNewProduct: () => void }) {
         <div className="absolute -top-[8px] right-[60px] w-[36px] h-[36px] rounded-full bg-[#ffd6d6] opacity-35" />
         <div className="absolute bottom-[20px] left-[20px] w-[28px] h-[28px] rounded-[8px] bg-sidebar-active/20 -rotate-6" />
 
-        <div className="bg-white rounded-[20px] shadow-[0_4px_30px_rgba(125,112,134,0.1)] p-[32px] flex flex-col items-center gap-[24px]">
+        <div className="bg-panel rounded-[20px] shadow-[0_4px_30px_rgba(125,112,134,0.1)] p-[32px] flex flex-col items-center gap-[24px]">
           {/* Animated arrow pointing to search bar above */}
           <div className="flex flex-col items-center gap-[4px] animate-bounce" style={{ animationDuration: '2s' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -270,7 +270,7 @@ function EmptyDashboard({ onNewProduct }: { onNewProduct: () => void }) {
             </div>
 
             {/* Connector */}
-            <div className="ml-[19px] w-[2px] h-[12px] bg-[#e8e6ec] rounded-full" />
+            <div className="ml-[19px] w-[2px] h-[12px] bg-inner-border rounded-full" />
 
             {/* Step 2 */}
             <div className="flex items-center gap-[14px]">
@@ -287,7 +287,7 @@ function EmptyDashboard({ onNewProduct }: { onNewProduct: () => void }) {
             </div>
 
             {/* Connector */}
-            <div className="ml-[19px] w-[2px] h-[12px] bg-[#e8e6ec] rounded-full" />
+            <div className="ml-[19px] w-[2px] h-[12px] bg-inner-border rounded-full" />
 
             {/* Step 3 */}
             <div className="flex items-center gap-[14px]">
@@ -319,7 +319,7 @@ function EmptyDashboard({ onNewProduct }: { onNewProduct: () => void }) {
 
       {/* Dashboard section label */}
       <div className="w-full">
-        <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Dashboard</p>
+        <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Dashboard</p>
         <div className="mt-[20px] bg-inner rounded-[22px] py-[48px] flex flex-col items-center gap-[12px]">
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
             <rect x="8" y="8" width="32" height="32" rx="8" stroke="#d4d2de" strokeWidth="1.5" strokeDasharray="4 3"/>

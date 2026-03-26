@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth-context'
+import { useTheme } from '@/lib/theme-context'
 
 type Theme = 'light' | 'dark' | 'system'
 type Language = 'en' | 'es' | 'fr' | 'de' | 'ja'
@@ -14,7 +15,7 @@ const LANGUAGE_LABELS: Record<Language, string> = {
 
 export function Settings() {
   const { user } = useAuth()
-  const [theme, setTheme] = useState<Theme>('light')
+  const { theme, setTheme } = useTheme()
   const [language, setLanguage] = useState<Language>('en')
   const [defaultReminders, setDefaultReminders] = useState({
     thirtyDay: true,
@@ -26,7 +27,7 @@ export function Settings() {
   const [pushNotifications, setPushNotifications] = useState(true)
   const [weeklyDigest, setWeeklyDigest] = useState(false)
   const [autoDelete, setAutoDelete] = useState(30)
-  const [currency, setCurrency] = useState('USD')
+  const [currency, setCurrency] = useState('INR')
   const [dateFormat, setDateFormat] = useState('MMM d, yyyy')
   const [saved, setSaved] = useState(false)
 
@@ -39,7 +40,7 @@ export function Settings() {
     <div className="flex flex-col gap-[32px]">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Settings</p>
+        <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Settings</p>
         <button
           onClick={handleSave}
           className={`px-[20px] py-[10px] rounded-[10px] text-[14px] font-medium tracking-[-0.28px] transition-all ${
@@ -70,7 +71,7 @@ export function Settings() {
                 className={`px-[14px] py-[8px] rounded-[8px] text-[13px] font-medium tracking-[-0.26px] capitalize transition-colors ${
                   theme === t
                     ? 'bg-btn-primary text-white'
-                    : 'bg-inner text-text-secondary hover:bg-[#e8e6ec]'
+                    : 'bg-inner text-text-secondary hover:bg-inner'
                 }`}
               >
                 {t}
@@ -167,13 +168,13 @@ export function Settings() {
         </SettingsRow>
 
         <SettingsRow label="Export data" description="Download all your warranties as a CSV file">
-          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-[#e8e6ec] transition-colors">
+          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-inner transition-colors">
             Export CSV
           </button>
         </SettingsRow>
 
         <SettingsRow label="Import data" description="Import warranties from a CSV or JSON file">
-          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-[#e8e6ec] transition-colors">
+          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-inner transition-colors">
             Import
           </button>
         </SettingsRow>
@@ -186,20 +187,20 @@ export function Settings() {
         </SettingsRow>
 
         <SettingsRow label="Change password" description="Update your account password">
-          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-[#e8e6ec] transition-colors">
+          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-inner transition-colors">
             Change
           </button>
         </SettingsRow>
 
         <SettingsRow label="Two-factor authentication" description="Add an extra layer of security to your account">
-          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-[#e8e6ec] transition-colors">
+          <button className="px-[14px] py-[8px] rounded-[8px] bg-inner text-[13px] font-medium tracking-[-0.26px] text-text-secondary hover:bg-inner transition-colors">
             Enable
           </button>
         </SettingsRow>
       </SettingsSection>
 
       {/* Danger zone */}
-      <div className="bg-panel rounded-[12px] p-[24px] flex flex-col gap-[16px] border border-[#ffd6d6]">
+      <div className="bg-panel rounded-[12px] p-[24px] flex flex-col gap-[16px] border border-status-expiring-bg">
         <div className="flex flex-col gap-[4px]">
           <p className="font-medium text-[18px] text-status-expiring tracking-[-0.36px]">Danger Zone</p>
           <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">Irreversible actions that affect your account</p>
@@ -223,10 +224,10 @@ function SettingsSection({ title, description, children }: { title: string; desc
   return (
     <div className="bg-panel rounded-[12px] p-[24px] flex flex-col gap-[20px]">
       <div className="flex flex-col gap-[4px]">
-        <p className="font-medium text-[18px] text-black tracking-[-0.36px]">{title}</p>
+        <p className="font-medium text-[18px] text-text-primary tracking-[-0.36px]">{title}</p>
         <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">{description}</p>
       </div>
-      <div className="flex flex-col gap-[0px] divide-y divide-[#f0ede8]">
+      <div className="flex flex-col gap-[0px] divide-y divide-inner-border">
         {children}
       </div>
     </div>

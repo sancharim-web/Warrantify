@@ -5,8 +5,6 @@ import { fetchWarrantyById, trashWarranty, uploadWarrantyImage, uploadGalleryIma
 import { enrichWarranty, getStatusBadgeClasses, getExpiryTextColor, CATEGORIES } from '@/lib/warranty-utils'
 import type { Warranty, Category } from '@/types'
 import { format, subDays } from 'date-fns'
-import backArrowIcon from '@/assets/icons/back-arrow.svg'
-import shredderIcon from '@/assets/icons/shredder.svg'
 
 export function ProductDetail() {
   const { productId } = useParams<{ productId: string }>()
@@ -57,9 +55,9 @@ export function ProductDetail() {
     deleteMutation.mutate(warranty!.id)
   }
 
-  const badgeLabel = enriched.days_remaining === 0 ? 'Today'
-    : enriched.status === 'active' ? 'Active'
-    : enriched.status === 'expiring_soon' ? 'Expiring soon'
+  const badgeLabel = enriched.status === 'active' ? 'Active'
+    : enriched.status === 'expiring_soon'
+      ? (enriched.days_remaining === 0 ? 'Today' : 'Expiring soon')
     : 'Expired'
 
   const hasImage = !!enriched.image_url
@@ -69,9 +67,11 @@ export function ProductDetail() {
   return (
     <div className="flex flex-col gap-[24px] pt-[24px]">
       {/* Back link */}
-      <Link to="/dashboard" className="flex gap-[10px] items-center w-fit">
-        <img src={backArrowIcon} alt="" className="w-[20px] h-[20px] rotate-90" />
-        <p className="font-medium text-[16px] text-black tracking-[-0.32px]">Back to dashboard</p>
+      <Link to="/dashboard" className="flex gap-[10px] items-center w-fit text-text-primary">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0">
+          <path d="M12 4L6 10L12 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <p className="font-medium text-[16px] tracking-[-0.32px]">Back to dashboard</p>
       </Link>
 
       <div className="flex flex-col gap-[16px]">
@@ -105,7 +105,7 @@ export function ProductDetail() {
         {/* Product Information */}
         <div className="bg-panel rounded-[8px] p-[40px] flex flex-col gap-[32px]">
           <div className="flex flex-col gap-[20px]">
-            <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Product Information</p>
+            <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Product Information</p>
 
             {/* Product name */}
             <DetailField label="Product" value={enriched.product_name} />
@@ -158,7 +158,7 @@ export function ProductDetail() {
           {/* Brand Contact */}
           {enriched.brand_contact && (
             <div className="flex flex-col gap-[16px]">
-              <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Brand Contact</p>
+              <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Brand Contact</p>
               <div className="bg-inner rounded-[12px] p-[20px] flex items-center gap-[16px]">
                 <div className="w-[40px] h-[40px] rounded-[10px] bg-btn-primary/10 flex items-center justify-center shrink-0">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -177,14 +177,22 @@ export function ProductDetail() {
         </div>
 
         {/* Reminder Settings */}
-        <ReminderSettingsSection expiryDate={enriched.expiry_date} status={enriched.status} />
+        <ReminderSettingsSection
+          warrantyId={enriched.id}
+          expiryDate={enriched.expiry_date}
+          status={enriched.status}
+          reminderConfig={enriched.reminder_config}
+        />
 
         {/* Shred warranty */}
         <button
           onClick={handleDelete}
-          className="flex items-center gap-[8px] px-[14px] py-[8px] rounded-[10px] text-status-expiring bg-status-expiring-bg/50 hover:bg-status-expiring-bg transition-colors"
+          className="flex items-center gap-[8px] px-[20px] py-[10px] rounded-[10px] text-status-expiring bg-status-expiring-bg/50 hover:bg-status-expiring-bg transition-colors self-start"
         >
-          <img src={shredderIcon} alt="" className="w-[16px] h-[16px]" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(5043%) hue-rotate(348deg) brightness(89%) contrast(97%)' }} />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
+            <path d="M3 6H13M5 6V4H11V6M4 6V13H12V6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M6.5 8.5V10.5M9.5 8.5V10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
           <span className="font-medium text-[13px] tracking-[-0.26px]">Shred this warranty</span>
         </button>
       </div>
@@ -286,11 +294,11 @@ function EditProductModal({
     <div className="fixed inset-0 z-[200] flex items-center justify-center">
       <div className="absolute inset-0 bg-black/30 backdrop-blur-[8px]" onClick={onClose} />
 
-      <div className="relative bg-white rounded-[20px] w-[560px] max-h-[90vh] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)] flex flex-col">
+      <div className="relative bg-panel rounded-[20px] w-[560px] max-h-[90vh] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-[32px] pt-[28px] pb-[20px] border-b border-[#f0ede8]">
+        <div className="flex items-center justify-between px-[32px] pt-[28px] pb-[20px] border-b border-inner-border">
           <div className="flex flex-col gap-[4px]">
-            <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Edit Product</p>
+            <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Edit Product</p>
             <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">Update warranty details</p>
           </div>
           <button
@@ -406,7 +414,7 @@ function EditProductModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-[12px] px-[32px] py-[20px] border-t border-[#f0ede8]">
+        <div className="flex items-center justify-end gap-[12px] px-[32px] py-[20px] border-t border-inner-border">
           <button
             onClick={onClose}
             className="px-[20px] py-[10px] rounded-[12px] bg-inner text-[14px] font-medium text-text-body tracking-[-0.28px] hover:opacity-80 transition-opacity"
@@ -578,7 +586,7 @@ function MediaSection({
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex items-center justify-between">
-        <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Media & Documents</p>
+        <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Media & Documents</p>
         <div className="flex items-center gap-[8px]">
           <button
             onClick={() => coverFileRef.current?.click()}
@@ -672,7 +680,7 @@ function MediaSection({
             )}
             {/* Cover badge */}
             {activeIndex === 0 && coverUrl && (
-              <div className="absolute top-[12px] left-[12px] bg-white/90 backdrop-blur-[8px] rounded-[8px] px-[10px] py-[4px]">
+              <div className="absolute top-[12px] left-[12px] bg-panel/90 backdrop-blur-[8px] rounded-[8px] px-[10px] py-[4px]">
                 <span className="text-text-body text-[11px] font-semibold tracking-[-0.22px] uppercase">Cover</span>
               </div>
             )}
@@ -860,45 +868,146 @@ const REMINDER_OPTIONS: ReminderOption[] = [
   { id: 'expiry', label: 'Expiry day alert', description: 'Email notification on the day of expiry', daysBefore: 0 },
 ]
 
-function ReminderSettingsSection({ expiryDate, status }: { expiryDate: string; status: string }) {
+function formatDaysLabel(totalDays: number): string {
+  if (totalDays >= 365 && totalDays % 365 === 0) {
+    const y = totalDays / 365
+    return `${y} ${y === 1 ? 'year' : 'years'} reminder`
+  }
+  if (totalDays >= 30 && totalDays % 30 === 0) {
+    const m = totalDays / 30
+    return `${m} ${m === 1 ? 'month' : 'months'} reminder`
+  }
+  const parts: string[] = []
+  let remaining = totalDays
+  if (remaining >= 365) {
+    const y = Math.floor(remaining / 365)
+    parts.push(`${y}y`)
+    remaining %= 365
+  }
+  if (remaining >= 30) {
+    const m = Math.floor(remaining / 30)
+    parts.push(`${m}m`)
+    remaining %= 30
+  }
+  if (remaining > 0 || parts.length === 0) {
+    parts.push(`${remaining}d`)
+  }
+  return `${parts.join(' ')} reminder`
+}
+
+function computeTotalDays(years: string, months: string, days: string): number {
+  return (parseInt(years) || 0) * 365 + (parseInt(months) || 0) * 30 + (parseInt(days) || 0)
+}
+
+function decomposeDays(totalDays: number): { years: string; months: string; days: string } {
+  let remaining = totalDays
+  const years = Math.floor(remaining / 365)
+  remaining %= 365
+  const months = Math.floor(remaining / 30)
+  remaining %= 30
+  return {
+    years: years > 0 ? String(years) : '',
+    months: months > 0 ? String(months) : '',
+    days: remaining > 0 ? String(remaining) : '',
+  }
+}
+
+function ReminderSettingsSection({ warrantyId, expiryDate, status, reminderConfig }: {
+  warrantyId: string
+  expiryDate: string
+  status: string
+  reminderConfig: import('@/types').ReminderConfig | null
+}) {
+  const queryClient = useQueryClient()
+  const defaultConfig = reminderConfig || { enabled: ['30_day', '7_day', 'expiry'], custom: [] }
+
   const [enabledReminders, setEnabledReminders] = useState<Set<string>>(
-    new Set(['30_day', '7_day', 'expiry'])
+    new Set([...defaultConfig.enabled, ...defaultConfig.custom.map((d) => `custom_${d}`)])
   )
   const [addOpen, setAddOpen] = useState(false)
-  const [customDays, setCustomDays] = useState('')
-  const [customReminders, setCustomReminders] = useState<{ id: string; label: string; daysBefore: number }[]>([])
+  const [addYears, setAddYears] = useState('')
+  const [addMonthsVal, setAddMonthsVal] = useState('')
+  const [addDays, setAddDays] = useState('')
+  const [customReminders, setCustomReminders] = useState<{ id: string; label: string; daysBefore: number }[]>(
+    defaultConfig.custom.map((d) => ({ id: `custom_${d}`, label: formatDaysLabel(d), daysBefore: d }))
+  )
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editYears, setEditYears] = useState('')
+  const [editMonthsVal, setEditMonthsVal] = useState('')
+  const [editDaysVal, setEditDaysVal] = useState('')
 
   const expiry = new Date(expiryDate)
   const now = new Date()
   const isExpired = status === 'expired'
+
+  function persistConfig(enabled: Set<string>, customs: { id: string; daysBefore: number }[]) {
+    const standardEnabled = [...enabled].filter((id) => !id.startsWith('custom_'))
+    const customDaysArr = customs.filter((c) => enabled.has(c.id)).map((c) => c.daysBefore)
+    const config = { enabled: standardEnabled, custom: customDaysArr }
+    updateWarranty(warrantyId, { reminder_config: config }).then(() => {
+      queryClient.invalidateQueries({ queryKey: ['warranty', warrantyId] })
+    })
+  }
 
   function toggleReminder(id: string) {
     setEnabledReminders((prev) => {
       const next = new Set(prev)
       if (next.has(id)) next.delete(id)
       else next.add(id)
+      persistConfig(next, customReminders)
       return next
     })
   }
 
   function addCustomReminder() {
-    const days = parseInt(customDays)
-    if (isNaN(days) || days < 1 || days > 365) return
-    const id = `custom_${days}`
-    if (enabledReminders.has(id) || REMINDER_OPTIONS.some((o) => o.daysBefore === days)) return
-    setCustomReminders((prev) => [...prev, { id, label: `${days} day reminder`, daysBefore: days }])
-    setEnabledReminders((prev) => new Set([...prev, id]))
-    setCustomDays('')
+    const totalDays = computeTotalDays(addYears, addMonthsVal, addDays)
+    if (totalDays < 1) return
+    const id = `custom_${totalDays}`
+    if (enabledReminders.has(id) || REMINDER_OPTIONS.some((o) => o.daysBefore === totalDays)) return
+    const newCustom = { id, label: formatDaysLabel(totalDays), daysBefore: totalDays }
+    const updatedCustoms = [...customReminders, newCustom]
+    setCustomReminders(updatedCustoms)
+    setEnabledReminders((prev) => {
+      const next = new Set([...prev, id])
+      persistConfig(next, updatedCustoms)
+      return next
+    })
+    setAddYears('')
+    setAddMonthsVal('')
+    setAddDays('')
     setAddOpen(false)
   }
 
   function removeCustom(id: string) {
-    setCustomReminders((prev) => prev.filter((r) => r.id !== id))
+    const updatedCustoms = customReminders.filter((r) => r.id !== id)
+    setCustomReminders(updatedCustoms)
     setEnabledReminders((prev) => {
       const next = new Set(prev)
       next.delete(id)
+      persistConfig(next, updatedCustoms)
       return next
     })
+  }
+
+  function saveEditReminder(oldId: string) {
+    const totalDays = computeTotalDays(editYears, editMonthsVal, editDaysVal)
+    if (totalDays < 1) return
+    const newId = `custom_${totalDays}`
+    const updatedCustoms = customReminders.map((r) =>
+      r.id === oldId ? { id: newId, label: formatDaysLabel(totalDays), daysBefore: totalDays } : r
+    )
+    setCustomReminders(updatedCustoms)
+    setEnabledReminders((prev) => {
+      const next = new Set(prev)
+      next.delete(oldId)
+      next.add(newId)
+      persistConfig(next, updatedCustoms)
+      return next
+    })
+    setEditingId(null)
+    setEditYears('')
+    setEditMonthsVal('')
+    setEditDaysVal('')
   }
 
   const allReminders = [
@@ -916,7 +1025,12 @@ function ReminderSettingsSection({ expiryDate, status }: { expiryDate: string; s
   return (
     <div className="bg-panel rounded-[8px] px-[40px] py-[24px] flex flex-col gap-[20px]">
       <div className="flex items-center justify-between">
-        <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Reminder Settings</p>
+        <div className="flex flex-col gap-[4px]">
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Reminder Settings</p>
+          <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">
+            Configure when you want to be notified about this warranty
+          </p>
+        </div>
         <button
           onClick={() => setAddOpen(!addOpen)}
           className="flex items-center gap-[6px] px-[12px] py-[6px] rounded-[8px] bg-btn-primary/10 hover:bg-btn-primary/15 transition-colors"
@@ -930,27 +1044,23 @@ function ReminderSettingsSection({ expiryDate, status }: { expiryDate: string; s
 
       {/* Add custom reminder */}
       {addOpen && (
-        <div className="bg-inner rounded-[12px] p-[16px] flex flex-col gap-[12px]">
-          <p className="font-medium text-[14px] text-text-body tracking-[-0.28px]">Add custom reminder</p>
-          <div className="flex gap-[8px] items-center">
-            <input
-              type="number"
-              min="1"
-              max="365"
-              value={customDays}
-              onChange={(e) => setCustomDays(e.target.value)}
-              placeholder="Days before expiry"
-              className="flex-1 bg-white rounded-[8px] px-[12px] py-[8px] text-[14px] font-medium tracking-[-0.28px] text-text-body placeholder:text-text-muted/60 outline-none border border-[#e8e6ec] focus:border-btn-primary/40 transition-colors"
-            />
+        <div className="rounded-[10px] border border-btn-primary/20 bg-btn-primary/[0.03] p-[16px]">
+          <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px] mb-[12px]">Remind me before expiry</p>
+          <div className="flex items-center gap-[8px] flex-wrap">
+            <DurationInput label="Years" value={addYears} onChange={setAddYears} placeholder="0" />
+            <DurationInput label="Months" value={addMonthsVal} onChange={setAddMonthsVal} placeholder="0" />
+            <DurationInput label="Days" value={addDays} onChange={setAddDays} placeholder="0" autoFocus />
+            <div className="flex-1" />
             <button
               onClick={addCustomReminder}
-              className="bg-btn-primary px-[16px] py-[8px] rounded-[8px] text-white text-[13px] font-medium tracking-[-0.26px] hover:opacity-90 transition-opacity"
+              disabled={computeTotalDays(addYears, addMonthsVal, addDays) < 1}
+              className="bg-btn-primary px-[16px] py-[8px] rounded-[8px] text-white text-[13px] font-medium tracking-[-0.26px] hover:opacity-90 transition-opacity disabled:opacity-40 shrink-0"
             >
               Add
             </button>
             <button
-              onClick={() => { setAddOpen(false); setCustomDays('') }}
-              className="px-[12px] py-[8px] rounded-[8px] text-text-muted text-[13px] font-medium tracking-[-0.26px] hover:bg-white transition-colors"
+              onClick={() => { setAddOpen(false); setAddYears(''); setAddMonthsVal(''); setAddDays('') }}
+              className="text-text-muted text-[13px] font-medium tracking-[-0.26px] hover:text-text-body transition-colors shrink-0"
             >
               Cancel
             </button>
@@ -959,7 +1069,7 @@ function ReminderSettingsSection({ expiryDate, status }: { expiryDate: string; s
       )}
 
       {/* Reminder list */}
-      <div className="flex flex-col gap-[12px]">
+      <div className="flex flex-col gap-[8px]">
         {allReminders.map((reminder) => {
           const isEnabled = enabledReminders.has(reminder.id)
           const rStatus = isEnabled ? getReminderStatus(reminder.daysBefore) : 'upcoming'
@@ -967,64 +1077,126 @@ function ReminderSettingsSection({ expiryDate, status }: { expiryDate: string; s
             ? format(expiry, "MMM d'' yyyy")
             : format(subDays(expiry, reminder.daysBefore), "MMM d'' yyyy")
           const isSent = rStatus === 'sent' && isEnabled
+          const isEditing = editingId === reminder.id
 
           return (
-            <div key={reminder.id} className={`${isSent ? 'bg-reminder-sent-bg' : 'bg-inner'} rounded-[8px] p-[14px] flex items-center gap-[14px]`}>
-              {/* Toggle */}
-              <button
-                onClick={() => toggleReminder(reminder.id)}
-                className={`w-[20px] h-[20px] rounded-[4px] shrink-0 flex items-center justify-center transition-colors ${
-                  isEnabled
-                    ? isSent ? 'bg-status-active' : 'bg-btn-primary'
-                    : 'bg-[#d4d2de]'
-                }`}
-              >
-                {isEnabled && (
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                )}
-              </button>
+            <div key={reminder.id} className={`rounded-[10px] p-[16px] flex flex-col gap-[12px] transition-colors ${
+              isSent ? 'bg-reminder-sent-bg border border-status-active/15' : 'bg-inner'
+            }`}>
+              {/* Main row */}
+              <div className="flex items-center gap-[14px]">
+                {/* Toggle checkbox */}
+                <button
+                  onClick={() => toggleReminder(reminder.id)}
+                  className={`w-[22px] h-[22px] rounded-[5px] shrink-0 flex items-center justify-center transition-all ${
+                    isEnabled
+                      ? isSent ? 'bg-status-active shadow-[0_1px_3px_rgba(46,125,50,0.25)]' : 'bg-btn-primary shadow-[0_1px_3px_rgba(125,112,134,0.25)]'
+                      : 'bg-[#d4d2de] hover:bg-[#c5c3cd]'
+                  }`}
+                >
+                  {isEnabled && (
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </button>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <p className={`font-medium text-[15px] tracking-[-0.3px] ${isEnabled ? 'text-text-body' : 'text-text-muted'}`}>
-                  {reminder.label}
-                </p>
-                <p className="font-medium text-[12px] text-text-muted tracking-[-0.24px] mt-[2px]">
-                  {isEnabled ? reminderDate : reminder.description}
-                </p>
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <p className={`font-medium text-[15px] tracking-[-0.3px] ${isEnabled ? 'text-text-body' : 'text-text-muted'}`}>
+                    {reminder.label}
+                  </p>
+                  <p className="font-medium text-[12px] text-text-muted tracking-[-0.24px] mt-[2px]">
+                    {isEnabled ? reminderDate : reminder.description}
+                  </p>
+                </div>
+
+                {/* Status badge */}
+                <div className="flex items-center gap-[8px] shrink-0">
+                  {isSent && (
+                    <span className="flex items-center gap-[4px] px-[8px] py-[3px] rounded-[6px] bg-status-active/10 font-medium text-[12px] text-status-active tracking-[-0.24px]">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M2 5L4 7L8 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Sent
+                    </span>
+                  )}
+                  {isEnabled && !isSent && (
+                    <span className="flex items-center gap-[4px] px-[8px] py-[3px] rounded-[6px] bg-btn-primary/8 font-medium text-[12px] text-text-muted tracking-[-0.24px]">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <circle cx="5" cy="5" r="3.5" stroke="currentColor" strokeWidth="1"/>
+                        <path d="M5 3V5L6.5 6" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                      </svg>
+                      Scheduled
+                    </span>
+                  )}
+                  {!isEnabled && (
+                    <span className="px-[8px] py-[3px] rounded-[6px] bg-[#e8e6ec] font-medium text-[12px] text-text-muted/60 tracking-[-0.24px]">
+                      Off
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {/* Status / Remove */}
-              <div className="flex items-center gap-[8px] shrink-0">
-                {isSent && (
-                  <span className="font-medium text-[13px] text-status-active tracking-[-0.26px]">Sent!</span>
-                )}
-                {isEnabled && !isSent && (
-                  <span className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">Scheduled</span>
-                )}
-                {!isEnabled && (
-                  <span className="font-medium text-[13px] text-text-muted/60 tracking-[-0.26px]">Off</span>
-                )}
-                {reminder.isCustom && (
+              {/* Edit inline form for custom reminders */}
+              {isEditing && (
+                <div className="flex gap-[8px] items-center pl-[36px] flex-wrap">
+                  <DurationInput label="Years" value={editYears} onChange={setEditYears} placeholder="0" small />
+                  <DurationInput label="Months" value={editMonthsVal} onChange={setEditMonthsVal} placeholder="0" small />
+                  <DurationInput label="Days" value={editDaysVal} onChange={setEditDaysVal} placeholder="0" small autoFocus />
+                  <button
+                    onClick={() => saveEditReminder(reminder.id)}
+                    disabled={computeTotalDays(editYears, editMonthsVal, editDaysVal) < 1}
+                    className="px-[12px] py-[6px] rounded-[8px] bg-btn-primary text-white text-[12px] font-medium tracking-[-0.24px] hover:opacity-90 transition-opacity disabled:opacity-40"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => { setEditingId(null); setEditYears(''); setEditMonthsVal(''); setEditDaysVal('') }}
+                    className="px-[10px] py-[6px] rounded-[8px] text-text-muted text-[12px] font-medium tracking-[-0.24px] hover:bg-panel transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+
+              {/* Action buttons for custom reminders */}
+              {reminder.isCustom && !isEditing && (
+                <div className="flex items-center gap-[8px] pl-[36px]">
+                  <button
+                    onClick={() => {
+                      setEditingId(reminder.id)
+                      const d = decomposeDays(reminder.daysBefore)
+                      setEditYears(d.years)
+                      setEditMonthsVal(d.months)
+                      setEditDaysVal(d.days)
+                    }}
+                    className="flex items-center gap-[5px] px-[10px] py-[5px] rounded-[6px] hover:bg-panel/80 transition-colors"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M8 2L10 4M1.5 10.5L2 8L8.5 1.5L10.5 3.5L4 10L1.5 10.5Z" stroke="#9F8EAB" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span className="font-medium text-[12px] text-text-muted tracking-[-0.24px]">Edit</span>
+                  </button>
                   <button
                     onClick={() => removeCustom(reminder.id)}
-                    className="w-[20px] h-[20px] rounded-[4px] hover:bg-white flex items-center justify-center transition-colors"
+                    className="flex items-center gap-[5px] px-[10px] py-[5px] rounded-[6px] hover:bg-status-expiring-bg transition-colors"
                   >
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                      <path d="M2 2L8 8M8 2L2 8" stroke="#9F8EAB" strokeWidth="1.2" strokeLinecap="round"/>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 3H10M4.5 3V2H7.5V3M3.5 3V10.5H8.5V3" stroke="#c94040" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M5.5 5.5V8M6.5 5.5V8" stroke="#c94040" strokeWidth="1" strokeLinecap="round"/>
                     </svg>
+                    <span className="font-medium text-[12px] text-status-expiring tracking-[-0.24px]">Remove</span>
                   </button>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           )
         })}
       </div>
 
       {/* Email delivery info */}
-      <div className="flex items-center gap-[8px] pt-[4px]">
+      <div className="flex items-center gap-[8px] px-[4px]">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <circle cx="7" cy="7" r="5.5" stroke="#9F8EAB" strokeWidth="1"/>
           <path d="M7 4.5V7.5" stroke="#9F8EAB" strokeWidth="1" strokeLinecap="round"/>
@@ -1034,6 +1206,32 @@ function ReminderSettingsSection({ expiryDate, status }: { expiryDate: string; s
           Reminders are sent to your registered email address
         </p>
       </div>
+    </div>
+  )
+}
+
+function DurationInput({ label, value, onChange, placeholder, autoFocus, small }: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  autoFocus?: boolean
+  small?: boolean
+}) {
+  return (
+    <div className="flex flex-col gap-[4px]">
+      <p className={`font-medium text-text-muted tracking-[-0.24px] ${small ? 'text-[10px]' : 'text-[11px]'}`}>{label}</p>
+      <input
+        type="number"
+        min="0"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        autoFocus={autoFocus}
+        className={`bg-panel rounded-[8px] text-center font-medium text-text-body placeholder:text-text-muted/40 outline-none border border-inner-border focus:border-btn-primary/40 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+          small ? 'w-[52px] px-[8px] py-[5px] text-[13px] tracking-[-0.26px]' : 'w-[60px] px-[10px] py-[8px] text-[15px] tracking-[-0.3px]'
+        }`}
+      />
     </div>
   )
 }

@@ -10,6 +10,11 @@ export type WarrantyStatus = 'active' | 'expiring_soon' | 'expired'
 
 export type ReminderType = '30_day' | '7_day'
 
+export interface ReminderConfig {
+  enabled: string[]
+  custom: number[]
+}
+
 export interface Warranty {
   id: string
   user_id: string
@@ -27,6 +32,7 @@ export interface Warranty {
   updated_at: string
   image_url: string | null
   gallery_urls: string[] | null
+  reminder_config: ReminderConfig | null
   trashed_at: string | null
   documents?: Document[]
 }
@@ -65,5 +71,6 @@ export interface CreateWarrantyInput {
   notes?: string
   image_url?: string
   gallery_urls?: string[]
+  reminder_config?: ReminderConfig
   reminder_preference?: string
 }

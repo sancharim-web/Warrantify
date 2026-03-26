@@ -28,14 +28,14 @@ export function getStatusBadgeClasses(status: WarrantyStatus): string {
   }
 }
 
-export function getStatusLabel(status: WarrantyStatus): string {
+export function getStatusLabel(status: WarrantyStatus, days_remaining?: number): string {
   switch (status) {
     case 'active':
       return 'Active'
     case 'expiring_soon':
-      return 'Today'
+      return days_remaining === 0 ? 'Today' : 'Expiring soon'
     case 'expired':
-      return 'Inactive'
+      return 'Expired'
   }
 }
 

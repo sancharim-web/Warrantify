@@ -29,6 +29,7 @@ function makeWarranty(
     notes: null,
     image_url: null,
     gallery_urls: [],
+    reminder_config: { enabled: ['30_day', '7_day', 'expiry'], custom: [] },
     created_at: purchase_date,
     updated_at: purchase_date,
     trashed_at: null,

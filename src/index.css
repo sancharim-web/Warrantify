@@ -40,6 +40,46 @@
   --color-alert-text: #8a898f;
 }
 
+/* ── Dark theme overrides ─────────────────────────────── */
+.dark {
+  --color-page: #131118;
+  --color-panel: #1c1a22;
+  --color-inner: #252230;
+  --color-inner-border: #3a3644;
+  --color-card-bg: #1c1a22;
+
+  --color-text-primary: #e8e6ec;
+  --color-text-secondary: #b8b0c0;
+  --color-text-muted: #706878;
+  --color-text-chip: #b0a898;
+  --color-text-brand: #908890;
+  --color-text-body: #cdc6d4;
+  --color-text-dark: #e0dce4;
+
+  --color-btn-primary: #9484a0;
+  --color-sidebar-active: #7a6a88;
+  --color-chip-active: #8a8070;
+  --color-chip-inactive: #252230;
+  --color-filter-icon: #3a3644;
+  --color-placeholder: #2e2a38;
+
+  --color-status-active-bg: #1a3026;
+  --color-status-active: #4caf68;
+  --color-status-expiring-bg: #3a1a1a;
+  --color-status-expiring: #f06060;
+  --color-status-expired-bg: #2a2832;
+  --color-status-expired: #908898;
+
+  --color-reminder-sent-bg: #1a2820;
+  --color-reminder-pending-bg: #2e2418;
+  --color-reminder-pending: #f0a830;
+
+  --color-alert-bg: #2e1818;
+  --color-alert-text: #a09098;
+
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -54,4 +94,10 @@ body {
 
 #root {
   min-height: 100vh;
+}
+
+/* Dark mode overrides */
+.dark select,
+.dark input {
+  color-scheme: dark;
 }

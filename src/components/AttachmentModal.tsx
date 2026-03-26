@@ -71,11 +71,11 @@ export function AttachmentModal({ open, onOpenChange, onAttach, existingFiles = 
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="relative bg-white rounded-[20px] w-[520px] max-h-[90vh] overflow-y-auto p-[24px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)]">
+      <div className="relative bg-panel rounded-[20px] w-[520px] max-h-[90vh] overflow-y-auto p-[24px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)]">
         <div className="flex flex-col gap-[24px]">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Attachments</p>
+            <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Attachments</p>
             <button
               onClick={() => onOpenChange(false)}
               className="w-[32px] h-[32px] rounded-[8px] flex items-center justify-center hover:bg-inner transition-colors"

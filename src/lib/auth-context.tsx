@@ -8,11 +8,15 @@ export interface AppUser {
   email: string
 }
 
+const DEFAULT_REMINDER_DEFAULTS = ['30_day', '7_day', 'expiry']
+
 interface AuthContextValue {
   user: AppUser | null
   loading: boolean
   avatarUrl: string | null
   setAvatarUrl: (url: string | null) => void
+  reminderDefaults: string[]
+  updateReminderDefaults: (defaults: string[]) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   signUp: (email: string, password: string, name: string) => Promise<void>
   signOut: () => Promise<void>
@@ -23,6 +27,8 @@ const AuthContext = createContext<AuthContextValue>({
   loading: true,
   avatarUrl: null,
   setAvatarUrl: () => {},
+  reminderDefaults: DEFAULT_REMINDER_DEFAULTS,
+  updateReminderDefaults: async () => {},
   signIn: async () => {},
   signUp: async () => {},
   signOut: async () => {},
@@ -40,6 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null)
   const [loading, setLoading] = useState(true)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+  const [reminderDefaults, setReminderDefaults] = useState<string[]>(DEFAULT_REMINDER_DEFAULTS)
 
   // Listen for Supabase auth state changes
   useEffect(() => {
@@ -54,6 +61,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session?.user?.user_metadata?.avatar_url) {
         setAvatarUrl(session.user.user_metadata.avatar_url)
       }
+      if (session?.user?.user_metadata?.reminder_defaults) {
+        setReminderDefaults(session.user.user_metadata.reminder_defaults)
+      }
       setLoading(false)
     })
 
@@ -62,6 +72,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       (_event, session) => {
         setUser(session?.user ? mapSupabaseUser(session.user) : null)
         setAvatarUrl(session?.user?.user_metadata?.avatar_url || null)
+        if (session?.user?.user_metadata?.reminder_defaults) {
+          setReminderDefaults(session.user.user_metadata.reminder_defaults)
+        }
       }
     )
 
@@ -97,8 +110,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (error) throw error
   }, [])
 
+  const updateReminderDefaults = useCallback(async (defaults: string[]) => {
+    setReminderDefaults(defaults)
+    if (!isSupabaseConfigured || !supabase) return
+    const { error } = await supabase.auth.updateUser({
+      data: { reminder_defaults: defaults },
+    })
+    if (error) throw error
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user, loading, avatarUrl, setAvatarUrl, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, loading, avatarUrl, setAvatarUrl, reminderDefaults, updateReminderDefaults, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   )

@@ -73,8 +73,8 @@ export function Sidebar({ onNewProduct }: SidebarProps) {
           </button>
 
           {profileOpen && (
-            <div className="absolute top-[40px] left-0 w-[200px] bg-white rounded-[12px] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.1)] py-[8px] z-50">
-              <div className="px-[16px] py-[12px] border-b border-[#f0ede8]">
+            <div className="absolute top-[40px] left-0 w-[200px] bg-panel rounded-[12px] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.1)] py-[8px] z-50">
+              <div className="px-[16px] py-[12px] border-b border-inner-border">
                 <p className="font-medium text-[14px] text-text-body tracking-[-0.28px]">{userName}</p>
                 <p className="font-medium text-[12px] text-text-muted tracking-[-0.24px]">{userEmail}</p>
               </div>
@@ -83,7 +83,7 @@ export function Sidebar({ onNewProduct }: SidebarProps) {
                 <ProfileMenuItem icon="preferences" label="Preferences" onClick={() => { setProfileOpen(false); navigate('/notifications') }} />
                 <ProfileMenuItem icon="help" label="Help & Support" />
               </div>
-              <div className="border-t border-[#f0ede8] py-[4px]">
+              <div className="border-t border-inner-border py-[4px]">
                 <ProfileMenuItem icon="logout" label="Sign out" danger onClick={async () => { setProfileOpen(false); await signOut(); queryClient.invalidateQueries(); navigate('/') }} />
               </div>
             </div>

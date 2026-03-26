@@ -75,7 +75,7 @@ export function Profile() {
     <div className="flex flex-col gap-[24px]">
       {/* Header */}
       <div className="flex-1 py-[10px]">
-        <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Profile</p>
+        <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Profile</p>
       </div>
 
       {/* Avatar & Name card */}
@@ -108,7 +108,7 @@ export function Profile() {
           </button>
 
           <div className="flex flex-col gap-[4px] flex-1 min-w-0">
-            <p className="font-medium text-[20px] text-black tracking-[-0.4px]">{name}</p>
+            <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">{name}</p>
             <p className="font-medium text-[15px] text-text-muted tracking-[-0.3px]">{email}</p>
           </div>
 
@@ -145,7 +145,7 @@ export function Profile() {
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
           <div className="flex items-center justify-between">
-            <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Personal Information</p>
+            <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Personal Information</p>
           </div>
 
           <div className="flex flex-col">
@@ -240,7 +240,7 @@ export function Profile() {
       {/* Account Stats */}
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
-          <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Account Overview</p>
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Account Overview</p>
           <div className="flex gap-[16px]">
             <StatCard label="Products tracked" value={String(totalProducts)} />
             <StatCard label="Active warranties" value={String(activeWarranties)} />
@@ -253,7 +253,7 @@ export function Profile() {
       {/* Security */}
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
-          <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Security</p>
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Security</p>
           <div className="flex flex-col">
             <ActionRow
               label="Password"
@@ -277,9 +277,9 @@ export function Profile() {
       {/* Danger zone */}
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
-          <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Danger Zone</p>
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Danger Zone</p>
           <div className="flex flex-col">
-            <div className="flex items-center justify-between py-[16px] border-b border-[#f0ede8] last:border-b-0">
+            <div className="flex items-center justify-between py-[16px] border-b border-inner-border last:border-b-0">
               <div className="flex flex-col gap-[4px]">
                 <p className="font-medium text-[15px] text-text-secondary tracking-[-0.3px]">Export data</p>
                 <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">Download all your warranty data as a CSV</p>
@@ -313,7 +313,7 @@ function EditableRow({ label, value, editing, onEdit, onChange, onSave }: {
   onSave: () => void
 }) {
   return (
-    <div className="flex items-center justify-between py-[16px] border-b border-[#f0ede8] last:border-b-0">
+    <div className="flex items-center justify-between py-[16px] border-b border-inner-border last:border-b-0">
       <div className="flex flex-col gap-[4px] flex-1 min-w-0">
         <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">{label}</p>
         {editing ? (
@@ -350,7 +350,7 @@ function EditableRow({ label, value, editing, onEdit, onChange, onSave }: {
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex-1 bg-inner rounded-[12px] p-[20px] flex flex-col gap-[8px]">
-      <p className="font-medium text-[28px] text-black tracking-[-0.56px]">{value}</p>
+      <p className="font-medium text-[28px] text-text-primary tracking-[-0.56px]">{value}</p>
       <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">{label}</p>
     </div>
   )
@@ -358,7 +358,7 @@ function StatCard({ label, value }: { label: string; value: string }) {
 
 function ActionRow({ label, description, actionLabel }: { label: string; description: string; actionLabel: string }) {
   return (
-    <div className="flex items-center justify-between py-[16px] border-b border-[#f0ede8] last:border-b-0">
+    <div className="flex items-center justify-between py-[16px] border-b border-inner-border last:border-b-0">
       <div className="flex flex-col gap-[4px]">
         <p className="font-medium text-[15px] text-text-secondary tracking-[-0.3px]">{label}</p>
         <p className="font-medium text-[13px] text-text-muted tracking-[-0.26px]">{description}</p>

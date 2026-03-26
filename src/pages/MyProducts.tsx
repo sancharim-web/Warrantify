@@ -23,7 +23,7 @@ export function MyProducts() {
     <div className="flex flex-col gap-[20px]">
       {/* Title section */}
       <div className="flex items-center justify-between">
-        <p className="font-medium text-[24px] text-black tracking-[-0.48px] py-[10px]">
+        <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px] py-[10px]">
           My Products
         </p>
         <div className="rounded-full w-[32px] h-[32px] flex items-center justify-center">

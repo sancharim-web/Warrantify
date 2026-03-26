@@ -59,7 +59,7 @@ export function Shredder() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex-1 py-[10px]">
-          <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Shredder</p>
+          <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Shredder</p>
         </div>
       </div>
 
@@ -102,13 +102,13 @@ export function Shredder() {
             <div className="flex-1 flex flex-col gap-[16px] min-w-0">
               {/* Product details */}
               <div className="bg-panel rounded-[8px] p-[40px] flex flex-col gap-[24px] overflow-hidden">
-                <p className="font-medium text-[20px] text-black tracking-[-0.4px]">
+                <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">
                   {selected.product_name}
                 </p>
 
                 {/* Trashed date */}
                 <div className="bg-[#fff3e0] rounded-[8px] p-[16px] flex flex-col gap-[8px]">
-                  <p className="font-medium text-[13px] text-black tracking-[-0.26px]">
+                  <p className="font-medium text-[13px] text-text-primary tracking-[-0.26px]">
                     Moved to Shredder
                   </p>
                   <p className="font-medium text-[13px] text-alert-text tracking-[-0.26px]">
@@ -134,7 +134,7 @@ export function Shredder() {
 
                 {/* Product Information */}
                 <div className="flex flex-col gap-[16px]">
-                  <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Product Information</p>
+                  <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Product Information</p>
                   <div className="flex gap-[20px]">
                     <div className="flex-1 flex flex-col gap-[16px]">
                       <DetailField label="Brand" value={selected.brand ?? '—'} />

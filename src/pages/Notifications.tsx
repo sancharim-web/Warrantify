@@ -3,21 +3,18 @@ import { useAuth } from '@/lib/auth-context'
 import filterIcon from '@/assets/icons/filter.svg'
 
 const SCHEDULE_OPTIONS = [
-  { id: '30_days', label: '30 days before' },
-  { id: '7_days', label: '7 days before' },
-  { id: '1_day', label: '1 days before' },
+  { id: '30_day', label: '30 days before' },
+  { id: '7_day', label: '7 days before' },
+  { id: '1_day', label: '1 day before' },
   { id: 'expiry', label: 'On expiry day' },
 ] as const
 
 export function Notifications() {
-  const { user } = useAuth()
+  const { user, reminderDefaults, updateReminderDefaults } = useAuth()
   const initialEmail = user?.email ?? 'user@email.com'
   const [emailEnabled, setEmailEnabled] = useState(true)
   const [pushEnabled, setPushEnabled] = useState(true)
   const [dndEnabled, setDndEnabled] = useState(false)
-  const [activeSchedule, setActiveSchedule] = useState<Set<string>>(
-    new Set(['30_days', '7_days', 'expiry'])
-  )
   const [fromTime, setFromTime] = useState('10:00')
   const [toTime, setToTime] = useState('08:00')
   const [email, setEmail] = useState(initialEmail)
@@ -35,12 +32,10 @@ export function Notifications() {
   }
 
   function toggleSchedule(id: string) {
-    setActiveSchedule((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
+    const next = reminderDefaults.includes(id)
+      ? reminderDefaults.filter((d) => d !== id)
+      : [...reminderDefaults, id]
+    updateReminderDefaults(next)
   }
 
   return (
@@ -48,7 +43,7 @@ export function Notifications() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex-1 py-[10px]">
-          <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Notifications</p>
+          <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Notifications</p>
         </div>
         <div className="rounded-full w-[32px] h-[32px] flex items-center justify-center">
           <img src={filterIcon} alt="" className="w-[20px] h-[20px]" />
@@ -58,7 +53,7 @@ export function Notifications() {
       {/* Notification Channels */}
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
-          <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Notification Channels</p>
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Notification Channels</p>
           <div className="flex flex-col gap-[8px]">
             <ChannelRow
               title="Email Reminders"
@@ -80,14 +75,14 @@ export function Notifications() {
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
           <div className="flex flex-col gap-[8px]">
-            <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Reminder Schedule</p>
+            <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Reminder Schedule</p>
             <p className="font-medium text-[15px] text-text-muted tracking-[-0.3px]">
               Receive warranty alerts at user@gmail.com
             </p>
           </div>
           <div className="flex gap-[24px] flex-wrap">
             {SCHEDULE_OPTIONS.map((opt) => {
-              const isActive = activeSchedule.has(opt.id)
+              const isActive = reminderDefaults.includes(opt.id)
               return (
                 <button
                   key={opt.id}
@@ -95,7 +90,7 @@ export function Notifications() {
                   className={`flex gap-[7.5px] items-center justify-center px-[12px] py-[7.5px] rounded-[8px] text-[16px] font-medium tracking-[-0.32px] transition-colors ${
                     isActive
                       ? 'bg-chip-active text-white'
-                      : 'bg-white text-text-chip'
+                      : 'bg-chip-inactive text-text-chip'
                   }`}
                 >
                   {isActive && (
@@ -114,7 +109,7 @@ export function Notifications() {
       {/* Quiet Hours */}
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[24px]">
-          <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Quiet Hours</p>
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Quiet Hours</p>
           <div className="flex flex-col gap-[8px]">
             {/* DND toggle */}
             <div className="flex items-start py-[12px]">
@@ -135,7 +130,7 @@ export function Notifications() {
                   type="time"
                   value={fromTime}
                   onChange={(e) => setFromTime(e.target.value)}
-                  className="bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-black outline-none"
+                  className="bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-text-primary outline-none"
                 />
               </div>
               <div className="flex-1 flex flex-col gap-[8px]">
@@ -144,7 +139,7 @@ export function Notifications() {
                   type="time"
                   value={toTime}
                   onChange={(e) => setToTime(e.target.value)}
-                  className="bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-black outline-none"
+                  className="bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-text-primary outline-none"
                 />
               </div>
             </div>
@@ -155,7 +150,7 @@ export function Notifications() {
       {/* Email Reference */}
       <div className="bg-panel rounded-[8px] px-[40px] py-[24px]">
         <div className="flex flex-col gap-[16px]">
-          <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Email Reference</p>
+          <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Email Reference</p>
           <div className="flex flex-col gap-[8px]">
             <p className="font-medium text-[15px] text-text-secondary tracking-[-0.3px]">Notification Email</p>
             <div className="flex gap-[10px] items-center">
@@ -163,7 +158,7 @@ export function Notifications() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-black outline-none"
+                className="flex-1 bg-inner rounded-[8px] h-[35px] px-[12px] py-[7.5px] text-[16px] font-medium tracking-[-0.32px] text-text-primary outline-none"
               />
               {emailChanged && (
                 <button

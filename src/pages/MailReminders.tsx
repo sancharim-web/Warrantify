@@ -101,7 +101,7 @@ export function MailReminders() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex-1 py-[10px]">
-          <p className="font-medium text-[24px] text-black tracking-[-0.48px]">Mail reminders</p>
+          <p className="font-medium text-[24px] text-text-primary tracking-[-0.48px]">Mail reminders</p>
         </div>
         <div className="flex items-center gap-[16px]">
         {/* Add reminder button */}
@@ -169,7 +169,7 @@ export function MailReminders() {
       {/* Content */}
       {groupedList.length === 0 ? (
         <div className="bg-inner rounded-[22px] py-[60px] px-[40px] flex flex-col items-center gap-[20px]">
-          <div className="w-[64px] h-[64px] rounded-[16px] bg-white flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+          <div className="w-[64px] h-[64px] rounded-[16px] bg-panel flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
               <rect x="3" y="6" width="22" height="16" rx="3" stroke="#d4d2de" strokeWidth="1.5"/>
               <path d="M3 9L14 16L25 9" stroke="#d4d2de" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -268,11 +268,11 @@ function AddReminderModal({
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center">
       <div className="absolute inset-0 bg-black/30 backdrop-blur-[8px]" onClick={onClose} />
-      <div className="relative bg-white rounded-[20px] w-[480px] max-h-[560px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden">
+      <div className="relative bg-panel rounded-[20px] w-[480px] max-h-[560px] shadow-[0px_4px_31.8px_0px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="px-[24px] pt-[24px] pb-[16px] flex flex-col gap-[16px]">
           <div className="flex items-center justify-between">
-            <p className="font-medium text-[18px] text-black tracking-[-0.36px]">Set up reminders</p>
+            <p className="font-medium text-[18px] text-text-primary tracking-[-0.36px]">Set up reminders</p>
             <button onClick={onClose} className="w-[28px] h-[28px] rounded-[8px] flex items-center justify-center hover:bg-inner transition-colors">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M3 3L11 11M11 3L3 11" stroke="#9c9ba1" strokeWidth="1.5" strokeLinecap="round"/>
@@ -342,7 +342,7 @@ function ReminderCard({ enriched, isSelected, onClick }: { enriched: WarrantyWit
   const expiryValue = enriched.status === 'active'
     ? `${enriched.days_remaining} days`
     : format(new Date(enriched.expiry_date), "MMM dd'' yyyy")
-  const badgeLabel = enriched.days_remaining === 0 ? 'Today' : enriched.status === 'active' ? 'Active' : enriched.status === 'expired' ? 'Inactive' : 'Today'
+  const badgeLabel = enriched.status === 'active' ? 'Active' : enriched.status === 'expiring_soon' ? (enriched.days_remaining === 0 ? 'Today' : 'Expiring soon') : 'Expired'
 
   return (
     <button
@@ -376,12 +376,12 @@ function ReminderCard({ enriched, isSelected, onClick }: { enriched: WarrantyWit
 
 function DetailCard({ enriched, warranty }: { enriched: WarrantyWithStatus; warranty: Warranty }) {
   const isExpiringToday = enriched.status === 'expiring_soon' && enriched.days_remaining === 0
-  const badgeLabel = enriched.days_remaining === 0 ? 'Today' : enriched.status === 'active' ? 'Active' : enriched.status === 'expired' ? 'Inactive' : 'Today'
+  const badgeLabel = enriched.status === 'active' ? 'Active' : enriched.status === 'expiring_soon' ? (enriched.days_remaining === 0 ? 'Today' : 'Expiring soon') : 'Expired'
 
   return (
     <div className="bg-panel rounded-[8px] p-[40px] flex flex-col gap-[24px] overflow-hidden">
       {/* Title */}
-      <p className="font-medium text-[20px] text-black tracking-[-0.4px]">
+      <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">
         {isExpiringToday ? 'Warranty Expires Today!' : enriched.status === 'expired' ? 'Warranty Expired' : 'Warranty Reminder'}
       </p>
 
@@ -403,7 +403,7 @@ function DetailCard({ enriched, warranty }: { enriched: WarrantyWithStatus; warr
       {/* Warning section */}
       {(enriched.status === 'expiring_soon' || enriched.status === 'expired') && (
         <div className="bg-alert-bg rounded-[8px] p-[16px] flex flex-col gap-[8px]">
-          <p className="font-medium text-[13px] text-black tracking-[-0.26px]">
+          <p className="font-medium text-[13px] text-text-primary tracking-[-0.26px]">
             {enriched.status === 'expired' ? 'Warranty Has Expired' : 'Immediate Action Required'}
           </p>
           <p className="font-medium text-[13px] text-alert-text tracking-[-0.26px]">
@@ -416,7 +416,7 @@ function DetailCard({ enriched, warranty }: { enriched: WarrantyWithStatus; warr
 
       {/* Product Information */}
       <div className="flex flex-col gap-[16px]">
-        <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Product Information</p>
+        <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Product Information</p>
 
         <div className="flex flex-col gap-[8px]">
           <p className="font-medium text-[16px] text-text-muted tracking-[-0.32px]">Product</p>
@@ -445,7 +445,7 @@ function DetailCard({ enriched, warranty }: { enriched: WarrantyWithStatus; warr
 function HistoryCard({ enriched, reminders }: { enriched: WarrantyWithStatus; reminders: Reminder[] }) {
   return (
     <div className="bg-panel rounded-[8px] px-[40px] py-[24px] flex flex-col gap-[24px] overflow-hidden">
-      <p className="font-medium text-[20px] text-black tracking-[-0.4px]">Reminder History</p>
+      <p className="font-medium text-[20px] text-text-primary tracking-[-0.4px]">Reminder History</p>
       <div className="flex flex-col gap-[8px]">
         {[...reminders]
           .sort((a, b) => new Date(a.sent_at).getTime() - new Date(b.sent_at).getTime())
